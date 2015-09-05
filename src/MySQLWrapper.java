@@ -111,10 +111,11 @@ public class MySQLWrapper implements IWrapper{
 					max = Math.max(max, dataSet[jj]);
 					min = Math.min(min, dataSet[jj]);
 					double theEleventhAngel = dataSet[jj];
+					System.out.println(theEleventhAngel +" "+s.length);
 					theEleventhAngel = (theEleventhAngel - min)/(max - min);
 					double[]labels = {theEleventhAngel};
 					double[]results = neuralNetwork.test(buffer, labels);
-					System.out.println("Avg Err: "+results[0]+"\tSatur.: "+results[1]+"\t"+results[2]+"vs."+theEleventhAngel);
+//					System.out.println("Avg Err: "+results[0]+"\tSatur.: "+results[1]+"\t"+results[2]+"vs."+theEleventhAngel);
 				}
 				++counter;
 			}

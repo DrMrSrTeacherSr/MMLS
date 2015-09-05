@@ -11,10 +11,15 @@ public class MySQLWrapper implements IWrapper{
 	private static final String USER = "root";
 	private static final String PASS = "4thegalaxytabs";
 
+	public static void main(String[] arg){
+		MySQLWrapper a = new MySQLWrapper();
+		a.trainNetwork();
+	}
+	
 	public MySQLWrapper() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public void trainNetwork() {
 		Connection conn = null;

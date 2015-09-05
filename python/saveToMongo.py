@@ -38,6 +38,7 @@ def main(argv):
             formatDict = getFormatDict(data)
         # Make all necessary formatting edits here
         formatDict = legalDict(data, formatDict)
+        db.drop_collection(sys.argv[2]+'format')
         formatColl = db[sys.argv[2]+'format']
         formatColl.insert_one(formatDict)
     except KeyError:

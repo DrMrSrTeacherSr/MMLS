@@ -1,0 +1,47 @@
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+	<link rel="stylesheet" href="css/tables.css">
+	<link rel="stylesheet" href="css/chart_types.css">
+</head>
+<body class="blue-grey">
+	<div class="container white">
+		<div class="row">
+			<div class="col s12">
+			    <h2 class="center-align">Example Data</h2>
+			</div>
+		</div>
+
+	    <div class="row">
+	    	<div id="whereDataGoes" class="col s12">
+	    		<!-- Imagine table of data here -->
+		    </div>
+	   </div>
+	</div>
+
+	<div id="modal-graph" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<div id="modal-graph-data" class="col s12 m6 dial chart">
+				<h4 class="title">Graph Your Data</h4>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-action modal-close blue-grey waves-effect waves-light white-text btn-flat">Done</a>
+		</div>
+	</div>
+	<div id="modal-chooser" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<div class="center-align"><h4>Choose a Graph Type</h4></div>
+			<div id="modal-chooser-options"></div>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-action modal-close blue-grey waves-effect waves-light white-text btn-flat ">Cancel</a>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="js/graphing.js"></script>
+    <script src="js/datastuff.js"></script>
+</body>
+

@@ -1,0 +1,21 @@
+/* Key-value table cells for displaying objects */
+.key-cell {
+	
+}
+.value-cell {
+	width: 80%;
+}
+
+/* Array detail views */
+.array-cell-header {
+
+}
+.array-cell-detail {
+	text-align: center;
+}
+.array-cell-detail a {
+	margin-top: 2%;
+	margin-bottom: 2%;
+	margin-right: auto;
+	margin-left: auto;
+}

@@ -42,7 +42,7 @@ def main(argv):
             formatDict = getFormatDict(data)
         #print(formatDict)
         # Make all necessary formatting edits here
-        formatDict = legalDict(data, formatDict)
+#        formatDict = legalDict(data, formatDict)
         #print(formatDict)
         db.drop_collection(sys.argv[2]+'format')
         formatColl = db[sys.argv[2]+'format']

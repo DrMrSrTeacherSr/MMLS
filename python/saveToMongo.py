@@ -18,13 +18,15 @@ def main(argv):
     db.drop_collection(sys.argv[2])
     collection = db[sys.argv[2]]
     
-    patientCount = 0;
-    while patientCount < len(data):
-        if len(data) > 1:
-            collection.insert_one(data[patientCount])
-        else :
-            collection.insert_one(data)
-        patientCount += 1
+#    patientCount = 0;
+#    while patientCount < len(data):
+#        if len(data) > 1:
+#            collection.insert_one(data[patientCount])
+#        else :
+#            collection.insert_one(data)
+#        patientCount += 1
+    for key in data.keys():
+        collection.insert_one(data[key])
         
     try:
         formatDict = getFormatDict(data[0])

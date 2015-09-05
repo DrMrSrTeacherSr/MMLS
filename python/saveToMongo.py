@@ -15,7 +15,7 @@ def main(argv):
     data = json.loads(json_data, object_hook=remove_dollarsign)
     
     mongoClient = MongoClient()
-    mongoClient.drop_database('MasterDB')
+#    mongoClient.drop_database('MasterDB')
     db = mongoClient['MasterDB']
     db.drop_collection(sys.argv[2])
     collection = db[sys.argv[2]]

@@ -7,17 +7,14 @@ Created on Sat Sep 05 04:16:12 2015
 import json
 import sys
 from pymongo import MongoClient
-from pymongo import Connection
 
 def main(argv):
     filename = sys.argv[1]
     json_data = open(filename).read()
     data = json.loads(json_data, object_hook=remove_dollarsign)
     
-    c = Connection()
-    c.drop_database('testerDb')       
-    
     mongoClient = MongoClient()
+    mongoClient.drop_database('testerDb')
     db = mongoClient['testerDb']
     
     collection = db['testerColl']

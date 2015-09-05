@@ -27,10 +27,13 @@ def main(argv):
 #            collection.insert_one(data)
 #        patientCount += 1
     for key in data.keys():
-        if isinstance(data[key], dict):
-            collection.insert_one(data[key])
-        else:
-            collection.insert_one(data)
+        try:
+            if isinstance(data[key], dict):
+                collection.insert_one(data[key])
+            else:
+                collection.insert_one(data)
+        except:
+            pass
             
     try:
         if isinstance(data[key], dict):

@@ -15,18 +15,18 @@ public class MySQLWrapper implements IWrapper{
 		MySQLWrapper a = new MySQLWrapper();
 		a.trainNetwork();
 	}
-	
+
 	public MySQLWrapper() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public void trainNetwork() {
 		Connection conn = null;
 		Statement stmt = null;
 
 		Map<String, Double[]>trainingData = new HashMap<String, Double[]>(); 
-		
+
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -42,7 +42,7 @@ public class MySQLWrapper implements IWrapper{
 			ArrayList<Double> tickerPrices = null;
 			String ticker = null;
 			while(rs.next()){
-				if (!ticker.equals(rs.getString("symbol"))){ //does not contain the key
+				if (!rs.getString("symbol").equals(ticker)){ //does not contain the key
 					if (tickerPrices != null && ticker != null){
 						Double[] tickerArray = (Double[])tickerPrices.toArray();
 						trainingData.put(ticker, tickerArray);
@@ -52,7 +52,6 @@ public class MySQLWrapper implements IWrapper{
 				ticker = rs.getString("symbol");
 				Double closingP = rs.getDouble("close_p");
 				tickerPrices.add(closingP);
-					
 			}
 
 			rs.close();

@@ -14,20 +14,18 @@ def main(argv):
     data = json.loads(json_data, object_hook=remove_dollarsign)
     
     mongoClient = MongoClient()
-    mongoClient.drop_database('testerDb')
-    db = mongoClient['testerDb']
-    
-    collection = db['testerColl']
-    posts = db.posts
+    db = mongoClient['MasterDB']
+    db.drop_collection(sys.argv[2])
+    collection = db[sys.argv[2]]
     
     patientCount = 0;
     while patientCount < 0:
-        posts.insert_one(data[patientCount])
+        collection.insert_one(data[patientCount])
         patientCount += 1
         
     try:
         formatDict = getFormatDict(data[0])
-        formatColl = db['format']
+        formatColl = db[sys.argv[2]+'format']
         formatColl.insert_one(formatDict)
     except KeyError:
         # Maybe send empty string to DB

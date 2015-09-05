@@ -54,6 +54,8 @@ def main(argv):
         # Maybe send empty string to DB
         pass
     
+    collection.find({'AGE':{}})    
+    
     with open('/public/MMLS/python/'+sys.argv[2]+'.txt','wb') as outFile:
         outFile.write(json.dumps(formatDict, indent=4, sort_keys=True))
         outFile.flush()

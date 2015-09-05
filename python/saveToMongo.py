@@ -24,10 +24,13 @@ def main(argv):
     while patientCount < 0:
         posts.insert_one(data[patientCount])
         patientCount += 1
-        
-    formatDict = getFormatDict(data[0])
-    formatColl = db['format']
-    formatColl.insert_one(formatDict)
+    try
+        formatDict = getFormatDict(data[0])
+        formatColl = db['format']
+        formatColl.insert_one(formatDict)
+    except KeyError:
+        # Maybe send empty string to DB
+        pass
     
 
 def remove_dollarsign(obj):
@@ -39,15 +42,9 @@ def remove_dollarsign(obj):
     return obj
     
 def getFormatDict(jsonData):
-    try:
-        keys = jsonData.keys()
-    except:
-        return {}
-    print('making dict')
+    keys = jsonData.keys()
     dictionary = dict((el, '') for el in keys)
-    print('made dict')
     for key in keys:
-        print('in for loop')
         try:
             jsonData[key].keys()
             dictionary[key] = getFormatDict(jsonData[key])

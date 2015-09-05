@@ -21,6 +21,11 @@ def main(argv):
     
     patientCount = 0;
     while patientCount < 1:
+        singleData = data[patientCount]
+        keySet = singleData.keys()
+        for key in keySet:
+            if key.find('$') > -1:
+                key.replace('S', '')
         posts.insert_one(data[patientCount])
         patientCount += 1
     

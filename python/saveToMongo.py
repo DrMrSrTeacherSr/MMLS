@@ -36,10 +36,10 @@ def main(argv):
             formatDict = getFormatDict(data[key])
         else:
             formatDict = getFormatDict(data)
-        print(formatDict)
+        #print(formatDict)
         # Make all necessary formatting edits here
         formatDict = legalDict(data, formatDict)
-        print(formatDict)
+        #print(formatDict)
         db.drop_collection(sys.argv[2]+'format')
         formatColl = db[sys.argv[2]+'format']
         formatColl.insert_one(formatDict)
@@ -47,7 +47,10 @@ def main(argv):
         # Maybe send empty string to DB
         pass
     
-    print(formatDict)
+    with open('/public/MMLS/python/'+sys.argv[2]+'.txt','wb') as outFile:
+        outFile.write(formatDict)
+        outFile.flush()
+        outFile.close()
 
 def remove_dollarsign(obj):
     for key in obj.keys():
@@ -82,9 +85,6 @@ def legalDictInner(data, key, acceptedDict):
             acceptedDict[key] = legalDict(data[key], acceptedDict[key])
         except:
             pass
-#        if key == '_id':
-#           del acceptedDict[key]
-#           return acceptedDict
         if isinstance(data[key], list):
            del acceptedDict[key]
            return acceptedDict

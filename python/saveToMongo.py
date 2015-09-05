@@ -35,6 +35,8 @@ def main(argv):
         except:
             pass
             
+    print(data.keys()) 
+            
     try:
         if isinstance(data[key], dict):
             formatDict = getFormatDict(data[key])

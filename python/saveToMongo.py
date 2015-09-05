@@ -7,6 +7,7 @@ Created on Sat Sep 05 04:16:12 2015
 import json
 import sys
 from pymongo import MongoClient
+from pprint import pprint
 
 def main(argv):
     filename = sys.argv[1]
@@ -35,18 +36,15 @@ def main(argv):
         except:
             pass
             
-    print(data.keys()) 
-            
     try:
         if int(sys.argv[3]):
             formatDict = getFormatDict(data[key])
         else:
             formatDict = getFormatDict(data)
-            print('here')
         #print(formatDict)
         # Make all necessary formatting edits here
 #        formatDict = legalDict(data, formatDict)
-        print(formatDict)
+#        print(formatDict)
         db.drop_collection(sys.argv[2]+'format')
         formatColl = db[sys.argv[2]+'format']
         formatColl.insert_one(formatDict)
@@ -54,7 +52,7 @@ def main(argv):
         # Maybe send empty string to DB
         pass
     
-    collection.find({'AGE':{}})    
+    pprint(collection.find({'AGE':57.1}).next())
     
     with open('/public/MMLS/python/'+sys.argv[2]+'.txt','wb') as outFile:
         outFile.write(json.dumps(formatDict, indent=4, sort_keys=True))

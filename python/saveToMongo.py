@@ -67,12 +67,12 @@ def remove_dollarsign(obj):
 def getFormatDict(jsonData):
     keys = jsonData.keys()
     dictionary = dict((el, '') for el in keys)
-    for key in keys:
-        try:
-            jsonData[key].keys()
-            dictionary[key] = getFormatDict(jsonData[key])
-        except AttributeError:
-            pass
+#    for key in keys:
+#        try:
+#            jsonData[key].keys()
+#            dictionary[key] = getFormatDict(jsonData[key])
+#        except AttributeError:
+#            pass
     return dictionary
 
 def legalDict(data, formattedDict):

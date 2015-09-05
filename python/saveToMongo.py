@@ -37,9 +37,7 @@ def main(argv):
         else:
             formatDict = getFormatDict(data)
         # Make all necessary formatting edits here
-                
-        
-        
+        formatDict = legalDict(data, formatDict)
         formatColl = db[sys.argv[2]+'format']
         formatColl.insert_one(formatDict)
     except KeyError:
@@ -67,9 +65,30 @@ def getFormatDict(jsonData):
             pass
     return dictionary
 
-#def legalDict(data, formattedDict):
-#    for keys in formattedDict:
+def legalDict(data, formattedDict):
+    acceptedDict = formattedDict
+    for key in formattedDict:
+        acceptedDict = legalDictInner(data, key, acceptedDict)
+    return acceptedDict
+                
+def legalDictInner(data, key, acceptedDict):
+    possibleSize = 0
+    for points in data:
+        try:
+            acceptedDict[key].keys()
+            acceptedDict[key] = legalDict(data[key], acceptedDict[key])
+        except:
+            pass
+        if isinstance(points[key], list):
+           del acceptedDict[key]
+           return acceptedDict
+        else:
+            possibleSize += 1
+    
+    if len(data)/possibleSize > 5:
+        acceptedDict[key] = possibleSize
+    
+    return acceptedDict
         
-
 if __name__ == "__main__":
    main(sys.argv[1:])

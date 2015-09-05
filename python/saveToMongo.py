@@ -20,7 +20,7 @@ def main(argv):
     posts = db.posts
     
     patientCount = 0;
-    while patientCount < 1:
+    while patientCount < len(data):
 #        singleData = data[patientCount]
 #        keySet = singleData.keys()
 #        for key in keySet:

@@ -1,6 +1,8 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MySQLWrapper implements IWrapper{
@@ -10,6 +12,8 @@ public class MySQLWrapper implements IWrapper{
 
 	private static final String USER = "root";
 	private static final String PASS = "4thegalaxytabs";
+	
+	private ANN neuralNetwork;
 
 	public static void main(String[] arg){
 		MySQLWrapper a = new MySQLWrapper();
@@ -17,7 +21,8 @@ public class MySQLWrapper implements IWrapper{
 	}
 
 	public MySQLWrapper() {
-		// TODO Auto-generated constructor stub
+		int [] h = {15,15,15};
+		neuralNetwork = new ANN(10, h, 1);
 	}
 
 	@Override
@@ -81,6 +86,19 @@ public class MySQLWrapper implements IWrapper{
 				se.printStackTrace();
 			}//end finally try
 		}//end try
+		
+		double[] buffer = new double[10];
+		Double[] dataSet = trainingData.get(trainingData.keySet().iterator().next());
+		double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
+		for (int ii = 0; ii < buffer.length; ii++){
+			buffer[ii] = (double)dataSet[ii];
+			max = Math.max(max, buffer[ii]);
+			min = Math.min(min, buffer[ii]);
+		}
+		double theEleventhAngel = dataSet[10];
+		theEleventhAngel = (theEleventhAngel - min)/(max - min);
+		double[]labels = {theEleventhAngel};
+		System.out.println(neuralNetwork.test(buffer, labels)[1]);
 	}
 
 	@Override

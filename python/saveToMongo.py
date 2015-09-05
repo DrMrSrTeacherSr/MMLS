@@ -44,7 +44,9 @@ def getFormatDict(jsonData):
     except AttributeError:
         return {}
     dictionary = dict((el, '') for el in keys)
+    print('made dict')
     for key in keys:
+        print('in for loop')
         try:
             jsonData[key].keys()
             dictionary[key] = getFormatDict(jsonData[key])

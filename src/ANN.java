@@ -15,11 +15,10 @@ public class ANN {
 	
 	private double[][] error;
 
-	double weightsLearningRate = .5;
-	double biasLearningRate = .5;
+	double weightsLearningRate = .75;
+	double biasLearningRate = .75;
 
 	int trialCount = 0;
-	
 	
 	/**
 	 * Create an artificial neural network
@@ -35,22 +34,18 @@ public class ANN {
 		neuralNetZ = new double[L][];
 		error = new double[L][];
 
-		
 		neuralNetWeights[0] = new double[inputNodesNum][1];
 		neuralNetBias[0] = new double[inputNodesNum];
 		neuralNetActivation[0] = new double[inputNodesNum];
 		neuralNetZ[0] = new double[inputNodesNum];
 		error[0] = new double[inputNodesNum];
 
-		
-		
 		neuralNetWeights[1] = new double[hiddenNodesNum[0]][inputNodesNum];
 		neuralNetBias[1] = new double[hiddenNodesNum[0]];
 		neuralNetActivation[1] = new double[hiddenNodesNum[0]];
 		neuralNetZ[1] = new double[hiddenNodesNum[0]];
 		error[1] = new double[hiddenNodesNum[0]];
 
-		
 		for(int i = 1; i < L - 2; i++){
 			neuralNetWeights[i+1] = new double[hiddenNodesNum[i]][hiddenNodesNum[i - 1]];
 			neuralNetBias[i+1] = new double[hiddenNodesNum[i]];
@@ -68,39 +63,6 @@ public class ANN {
 
 
 		init();
-//		System.out.println("Start");
-//		System.out.println("------------------------------------");
-//		System.out.println(toStringWeights());
-//		System.out.println("------------------------------------");
-//		System.out.println(toStringBias());
-//		System.out.println("------------------------------------");
-//		System.out.println(toStringZ());
-//		System.out.println("------------------------------------");
-//		System.out.println(toStringActivationFunction());
-//		System.out.println("------------------------------------");
-//		System.out.println("End");
-		double[] o = new double[2];
-		for(int i = 0; i < 20; i++){
-			double t1 = .75;
-//			double t2 = Math.random();
-			double[] in = {t1};
-			double[] out = {Math.pow(t1,2)};
-			o = out;
-//			out = sigmoidPrime(out);
-		
-			runTrial(in,out);
-
-		}
-		System.out.println("Start");
-		System.out.println("------------------------------------");
-		System.out.println(toStringWeights());
-		System.out.println("------------------------------------");
-		System.out.println(toStringBias());
-		System.out.println("------------------------------------");
-		System.out.println(toStringZ());
-		System.out.println("------------------------------------");
-		System.out.println(toStringActivationFunction());
-		System.out.println("End" + " : " + neuralNetActivation[L-1][0] + " : " + o[0]);
 	}
 	
 	/**
@@ -119,12 +81,68 @@ public class ANN {
 		}
 	}
 	
-	public void runTrial(double[] in, double[] out){
-		feedForward(in);
-		backPropogate(out);
-		trialCount++;
+	/**
+	 * Pass an array of matrixes  with labels to train a NN
+	 * Returns the average final error, average saturation and final activation signals
+	 * 
+	 * @param values
+	 * @param labels
+	 * @return
+	 */
+	public double[] train(double[][] values, double[][] labels){
+		double[] settings = new double[2 + labels[0].length];
+		for(int i = 0; i < values.length; i ++){
+			test(values[i], labels[i]);
+		}
+		
+		double averageLastError = 0;
+		double averageSaturation = 0;
+		for(int i = 0; i < labels[0].length; i++){
+			averageLastError += Math.abs(labels[labels.length - 1][i] - neuralNetActivation[L-1][i]);
+			averageSaturation += Math.pow(Math.abs(labels[labels.length - 1][i] - .5),2) * 2;
+			settings[i+2] = neuralNetActivation[L-1][i];
+		}
+		settings[0] = averageLastError/labels[0].length;
+		settings[1] = averageSaturation;
+
+		return settings;
 	}
 	
+	/**
+	 * Run a single trial through the ANN
+	 * 
+	 * @param in
+	 * @param out
+	 */
+	public double[] test(double[] values, double[] labels){
+		double[] settings = new double[2 + labels.length];
+
+		feedForward(values);
+		backPropogate(labels);
+		trialCount++;
+		
+		double averageLastError = 0;
+		double averageSaturation = 0;
+		for(int i = 0; i < labels.length; i++){
+			
+			averageLastError += Math.abs(labels[i] - neuralNetActivation[L-1][i]);
+			averageSaturation += Math.pow(Math.abs(labels[i] - .5),2) * 2;
+			settings[i+2] = neuralNetActivation[L-1][i];
+		}
+		
+		settings[0] = averageLastError/labels.length;
+		settings[1] = averageSaturation;
+		
+
+
+		return settings;
+	}
+	
+	/**
+	 * Helper method that does the feed forward
+	 * 
+	 * @param inputField
+	 */
 	private void feedForward(double[] inputField){
 		for(int i = 0; i < inputField.length; i++){
 			neuralNetActivation[0][i] = inputField[i];
@@ -135,14 +153,22 @@ public class ANN {
 		}
 	}
 	
+	/**
+	 * Helper function to do the back propagation
+	 * 
+	 * @param y
+	 */
 	private void backPropogate(double[] y){
 		calculateErrorL(y);
 		calculateErrorl();
 		updateNet();
-		int sum = 0;
-		for(double d : error[L-1]) sum += d;
 	}
 	
+	/**
+	 * Intermediary used in a few calculations
+	 * 
+	 * @param layer
+	 */
 	private void calculateZ(int layer){
 		for(int j = 0; j < neuralNetWeights[layer].length; j++){
 			neuralNetZ[layer][j] = 0;
@@ -153,10 +179,21 @@ public class ANN {
 		}
 	}
 	
+	/**
+	 * Activation calculation
+	 * 
+	 * @param layer
+	 */
 	private void calculateActivation(int layer){
 		neuralNetActivation[layer] = sigmoid(neuralNetZ[layer]);
 	}
 	
+	/**
+	 * Activation Function
+	 * 
+	 * @param x
+	 * @return f(x)
+	 */
 	private double[] sigmoid(double[] x){
 		double[] out = new double[x.length];
 		for(int i = 0; i < x.length; i++)
@@ -164,6 +201,12 @@ public class ANN {
 		return out;
 	}
 	
+	/**
+	 * Derivative of Activation function
+	 * 
+	 * @param x
+	 * @return f'(x)
+	 */
 	private double[] sigmoidPrime(double[] x){
 		double[] out = new double[x.length];
 		for(int i = 0; i < x.length; i++)
@@ -171,17 +214,27 @@ public class ANN {
 		return out;
 	}
 	
+	/**
+	 * Error calculation for output nodes
+	 * 
+	 * @param y
+	 */
 	private void calculateErrorL(double[] y){
 		error[L - 1] = hadamarProduct(costGradient(L - 1, y),sigmoidPrime(neuralNetZ[L - 1]));
-//		System.out.println((error[L-1][0]) + " : " + costGradient(L - 1, y)[0]+ " : " + neuralNetZ[L - 1][0]+ " : " + sigmoidPrime(neuralNetZ[L - 1])[0]);
 	}
 	
+	/**
+	 * Error calculation for non-output nodes
+	 */
 	private void calculateErrorl(){
 		for(int i = L - 2; i >= 0; i--){
 			error[i] = hadamarProduct(arrayProduct(transpose(neuralNetWeights[i + 1]),error[i+1]),sigmoidPrime(neuralNetZ[i]));
 		}
 	}
 	
+	/**
+	 * Updates the weights and and bias via their gradients
+	 */
 	private void updateNet(){
 		for(int i = 1; i < neuralNetWeights.length; i++){
 			for(int j = 0; j < neuralNetWeights[i].length; j++){
@@ -193,16 +246,39 @@ public class ANN {
 		}
 	}
 	
+	/**
+	 * helper function for bias gradient
+	 * 
+	 * @param l
+	 * @param j
+	 * @return gradient
+	 */
 	private double biasGradient(int l, int j){
 		if( l == neuralNetWeights.length-1) return 0;
 
 		return error[l][j];
 	}
 	
+	/**
+	 * Helper function for weight gradient
+	 * 
+	 * @param l
+	 * @param j
+	 * @param k
+	 * @return gradient
+	 */
 	private double weightGradient(int l, int j, int k){
+		if(l == 1 ) return 1;
 		return neuralNetActivation[l - 1][k] * error[l][j];
 	}
 	
+	/**
+	 * Calculates Cost Gradient
+	 * 
+	 * @param layer
+	 * @param y
+	 * @return cost gradient
+	 */
 	private double[] costGradient(int layer, double[] y){
         double out[] = new double[y.length]; 
 		for(int i = 0; i < y.length; i++){
@@ -211,6 +287,13 @@ public class ANN {
 		return out;
 	}
 	
+	/**
+	 * Hadamar Product
+	 * 
+	 * @param first
+	 * @param second
+	 * @return double[] of Hadamar Product
+	 */
 	private double[] hadamarProduct(double[] first, double[] second){
 		double[] out = new double[first.length];
 		for(int i = 0; i < out.length; i++){
@@ -219,6 +302,12 @@ public class ANN {
 		return out;
 	}
 	
+	/**
+	 * Matrix transpose
+	 * 
+	 * @param a
+	 * @return the transpose
+	 */
 	private double[][] transpose(double[][] a){
 		double[][] out = new double[a[0].length][a.length];
 
@@ -232,6 +321,13 @@ public class ANN {
 		return out;
 	}
 
+	/**
+	 * Matrix multiplication method
+	 * 
+	 * @param first
+	 * @param second
+	 * @return A * B
+	 */
 	private double[] arrayProduct(double[][] first, double[] second){
         double out[] = new double[first.length]; 
         
@@ -246,6 +342,11 @@ public class ANN {
 		return out;
 	}
 	
+	/**
+	 * Prints weights
+	 * 
+	 * @return weights
+	 */
 	public String toStringWeights(){
 		String out = "";
 		for(int i = 0; i < neuralNetWeights.length; i++){
@@ -261,6 +362,11 @@ public class ANN {
 		return out;
 	}
 	
+	/**
+	 * Prints bias
+	 * 
+	 * @return bias
+	 */
 	public String toStringBias(){
 		String out = "";
 		for(int i = 0; i < neuralNetBias.length; i++){
@@ -274,6 +380,11 @@ public class ANN {
 		return out;
 	}
 	
+	/**
+	 * Prints Activation Values
+	 * 
+	 * @return Activation Values
+	 */
 	public String toStringActivationFunction(){
 		String out = "";
 		for(int i = 0; i < neuralNetActivation.length; i++){
@@ -287,6 +398,11 @@ public class ANN {
 		return out;
 	}
 	
+	/**
+	 * Prints Z
+	 * 
+	 * @return Z
+	 */
 	public String toStringZ(){
 		String out = "";
 		for(int i = 0; i < neuralNetZ.length; i++){
@@ -300,9 +416,4 @@ public class ANN {
 		return out;
 	}
 	
-	public static void main(String[] args){
-		int[] hidden = {50,40,30,20,10};
-		new ANN(1, hidden, 1);
-	}
-
 }

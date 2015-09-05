@@ -87,26 +87,30 @@ public class MySQLWrapper implements IWrapper{
 			}//end finally try
 		}//end try
 		
-		double[] buffer = new double[10];
-		Double[] dataSet = trainingData.get(trainingData.keySet().iterator().next());
-		
+
+		int counter = 0;
 		for (Double[] s : trainingData.values()){
 			if (s.length > 10) {
-				dataSet = s;
-				break;
+				double[] buffer = new double[10];
+				Double[] dataSet = s;
+				double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
+				for (int ii = 0; ii < buffer.length; ii++){
+					buffer[ii] = (double)dataSet[ii];
+					max = Math.max(max, buffer[ii]);
+					min = Math.min(min, buffer[ii]);
+				}
+				double theEleventhAngel = dataSet[10];
+				theEleventhAngel = (theEleventhAngel - min)/(max - min);
+				double[]labels = {theEleventhAngel};
+				double[]results = neuralNetwork.test(buffer, labels);
+				System.out.println("Avg Err: "+results[0]+"\tSatur.: "+results[1]+"\t"+results[2]+"vs."+theEleventhAngel);
+				++counter;
 			}
+			if (counter > 20)
+				break;
 		}
 		
-		double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
-		for (int ii = 0; ii < buffer.length; ii++){
-			buffer[ii] = (double)dataSet[ii];
-			max = Math.max(max, buffer[ii]);
-			min = Math.min(min, buffer[ii]);
-		}
-		double theEleventhAngel = dataSet[10];
-		theEleventhAngel = (theEleventhAngel - min)/(max - min);
-		double[]labels = {theEleventhAngel};
-		System.out.println(neuralNetwork.test(buffer, labels)[1]);
+
 	}
 
 	@Override

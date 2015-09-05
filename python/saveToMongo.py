@@ -29,7 +29,7 @@ def main(argv):
 #        patientCount += 1
     for key in data.keys():
         try:
-            if isinstance(data[key], dict):
+            if int(sys.argv[3]):
                 collection.insert_one(data[key])
             else:
                 collection.insert_one(data)
@@ -52,7 +52,7 @@ def main(argv):
         # Maybe send empty string to DB
         pass
     
-    pprint(collection.find({'AGE':57.1}).next())
+#    pprint(collection.find({'AGE':57.1}).next())
     
     with open('/public/MMLS/python/'+sys.argv[2]+'.txt','wb') as outFile:
         outFile.write(json.dumps(formatDict, indent=4, sort_keys=True))

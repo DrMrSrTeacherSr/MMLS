@@ -89,6 +89,14 @@ public class MySQLWrapper implements IWrapper{
 		
 		double[] buffer = new double[10];
 		Double[] dataSet = trainingData.get(trainingData.keySet().iterator().next());
+		
+		for (Double[] s : trainingData.values()){
+			if (s.length > 10) {
+				dataSet = s;
+				break;
+			}
+		}
+		
 		double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
 		for (int ii = 0; ii < buffer.length; ii++){
 			buffer[ii] = (double)dataSet[ii];

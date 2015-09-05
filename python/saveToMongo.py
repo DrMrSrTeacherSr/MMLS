@@ -19,18 +19,23 @@ def main(argv):
     collection = db[sys.argv[2]]
     
     patientCount = 0;
-    while patientCount < 0:
+    while patientCount < len(data):
         collection.insert_one(data[patientCount])
         patientCount += 1
         
     try:
         formatDict = getFormatDict(data[0])
+        # Make all necessary formatting edits here
+                
+        
+        
         formatColl = db[sys.argv[2]+'format']
         formatColl.insert_one(formatDict)
     except KeyError:
         # Maybe send empty string to DB
         pass
     
+    print(collection.find({'colorName':'red'}))
 
 def remove_dollarsign(obj):
     for key in obj.keys():
@@ -50,6 +55,10 @@ def getFormatDict(jsonData):
         except AttributeError:
             pass
     return dictionary
-    
+
+#def legalDict(data, formattedDict):
+#    for keys in formattedDict:
+        
+
 if __name__ == "__main__":
    main(sys.argv[1:])

@@ -39,6 +39,7 @@ def main(argv):
         print(formatDict)
         # Make all necessary formatting edits here
         formatDict = legalDict(data, formatDict)
+        print(formatDict)
         db.drop_collection(sys.argv[2]+'format')
         formatColl = db[sys.argv[2]+'format']
         formatColl.insert_one(formatDict)
@@ -81,9 +82,9 @@ def legalDictInner(data, key, acceptedDict):
             acceptedDict[key] = legalDict(data[key], acceptedDict[key])
         except:
             pass
-        if key == '_id':
-           del acceptedDict[key]
-           return acceptedDict
+#        if key == '_id':
+#           del acceptedDict[key]
+#           return acceptedDict
         if isinstance(data[key], list):
            del acceptedDict[key]
            return acceptedDict

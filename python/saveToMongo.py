@@ -21,14 +21,14 @@ def main(argv):
     posts = db.posts
     
     patientCount = 0;
-    while patientCount < len(data):
-#        singleData = data[patientCount]
-#        keySet = singleData.keys()
-#        for key in keySet:
-#            if key.find('$') > -1:
-#                key.replace('S', '')
+    while patientCount < 0:
         posts.insert_one(data[patientCount])
         patientCount += 1
+        
+    formatDict = getFormatDict(data[0])
+    formatColl = db['format']
+    formatColl.insert_one(formatDict)
+    
 
 def remove_dollarsign(obj):
     for key in obj.keys():
@@ -37,6 +37,17 @@ def remove_dollarsign(obj):
             obj[new_key] = obj[key]
             del obj[key]
     return obj
+    
+def getFormatDict(jsonData):
+    keys = jsonData.keys()
+    dictionary = dict((el, '') for el in keys)
+    for key in keys:
+        try:
+            jsonData[key].keys()
+            dictionary[key] = getFormatDict(jsonData[key])
+        except AttributeError:
+            pass
+    return dictionary
     
 if __name__ == "__main__":
    main(sys.argv[1:])

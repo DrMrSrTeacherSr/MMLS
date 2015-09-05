@@ -38,10 +38,10 @@ def main(argv):
     print(data.keys()) 
             
     try:
-#        if isinstance(data[key], dict):
-#            formatDict = getFormatDict(data)
-#        else:
-        formatDict = getFormatDict(data[0])
+        if sys.argv[3]:
+            formatDict = getFormatDict(data[key])
+        else:
+            formatDict = getFormatDict(data)
         #print(formatDict)
         # Make all necessary formatting edits here
 #        formatDict = legalDict(data, formatDict)

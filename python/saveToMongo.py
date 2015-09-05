@@ -41,7 +41,7 @@ def remove_dollarsign(obj):
 def getFormatDict(jsonData):
     try:
         keys = jsonData.keys()
-    except AttributeError:
+    except:
         return {}
     dictionary = dict((el, '') for el in keys)
     print('made dict')

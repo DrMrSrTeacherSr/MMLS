@@ -44,7 +44,10 @@ public class MySQLWrapper implements IWrapper{
 			while(rs.next()){
 				if (!rs.getString("symbol").equals(ticker)){ //does not contain the key
 					if (tickerPrices != null && ticker != null){
-						Double[] tickerArray = (Double[])tickerPrices.toArray();
+						Double[] tickerArray = new Double[tickerPrices.size()];
+						for (int ii = 0; ii < tickerArray.length; ii++){
+							tickerArray[ii] = tickerPrices.get(ii);
+						}
 						trainingData.put(ticker, tickerArray);
 					}
 					tickerPrices = new ArrayList<Double>();

@@ -15,8 +15,8 @@ public class ANN {
 	
 	private double[][] error;
 
-	double weightsLearningRate = .75;
-	double biasLearningRate = .75;
+	double weightsLearningRate = 1.5;
+	double biasLearningRate = 1.5;
 
 	int trialCount = 0;
 	

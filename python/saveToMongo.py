@@ -79,7 +79,7 @@ def legalDictInner(data, key, acceptedDict):
             acceptedDict[key] = legalDict(data[key], acceptedDict[key])
         except:
             pass
-        if isinstance(points[key], list):
+        if isinstance(data[key], list):
            del acceptedDict[key]
            return acceptedDict
         else:

@@ -24,7 +24,8 @@ def main(argv):
     while patientCount < 0:
         posts.insert_one(data[patientCount])
         patientCount += 1
-    try
+        
+    try:
         formatDict = getFormatDict(data[0])
         formatColl = db['format']
         formatColl.insert_one(formatDict)

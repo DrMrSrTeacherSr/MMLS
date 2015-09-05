@@ -38,7 +38,7 @@ def main(argv):
     print(data.keys()) 
             
     try:
-        if sys.argv[3]:
+        if int(sys.argv[3]):
             formatDict = getFormatDict(data[key])
         else:
             formatDict = getFormatDict(data)

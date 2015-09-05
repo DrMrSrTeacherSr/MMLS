@@ -20,7 +20,10 @@ def main(argv):
     
     patientCount = 0;
     while patientCount < len(data):
-        collection.insert_one(data[patientCount])
+        if len(data) > 1:
+            collection.insert_one(data[patientCount])
+        else :
+            collection.insert_one(data)
         patientCount += 1
         
     try:

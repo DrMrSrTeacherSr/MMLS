@@ -36,6 +36,7 @@ def main(argv):
             formatDict = getFormatDict(data[key])
         else:
             formatDict = getFormatDict(data)
+        print(formatDict)
         # Make all necessary formatting edits here
         formatDict = legalDict(data, formatDict)
         db.drop_collection(sys.argv[2]+'format')

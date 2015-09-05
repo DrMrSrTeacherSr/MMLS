@@ -26,10 +26,16 @@ def main(argv):
 #            collection.insert_one(data)
 #        patientCount += 1
     for key in data.keys():
-        collection.insert_one(data[key])
-        
+        if isinstance(data[key], dict):
+            getFormatDict(data[key])
+        else:
+            getFormatDict(data)
+            
     try:
-        formatDict = getFormatDict(data[0])
+        if isinstance(data[key], dict):
+            collection.insert_one(data[key])
+        else:
+            collection.insert_one(data)
         # Make all necessary formatting edits here
                 
         

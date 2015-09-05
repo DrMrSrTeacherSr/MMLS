@@ -43,6 +43,7 @@ def getFormatDict(jsonData):
         keys = jsonData.keys()
     except:
         return {}
+    print('making dict')
     dictionary = dict((el, '') for el in keys)
     print('made dict')
     for key in keys:

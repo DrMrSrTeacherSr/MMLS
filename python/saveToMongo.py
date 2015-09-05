@@ -27,15 +27,15 @@ def main(argv):
 #        patientCount += 1
     for key in data.keys():
         if isinstance(data[key], dict):
-            getFormatDict(data[key])
-        else:
-            getFormatDict(data)
-            
-    try:
-        if isinstance(data[key], dict):
             collection.insert_one(data[key])
         else:
             collection.insert_one(data)
+            
+    try:
+        if isinstance(data[key], dict):
+            formatDict = getFormatDict(data[key])
+        else:
+            formatDict = getFormatDict(data)
         # Make all necessary formatting edits here
                 
         

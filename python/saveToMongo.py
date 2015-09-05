@@ -48,7 +48,7 @@ def main(argv):
         pass
     
     with open('/public/MMLS/python/'+sys.argv[2]+'.txt','wb') as outFile:
-        outFile.write(formatDict)
+        outFile.write(json.dump(formatDict, indent=4, sort_keys=True))
         outFile.flush()
         outFile.close()
 

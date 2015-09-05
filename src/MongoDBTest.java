@@ -11,7 +11,7 @@ public class MongoDBTest {
 	public static void main(String[] args){
 		MongoClient mongoClient;
 		try {
-			mongoClient = new MongoClient("TestClient");
+			mongoClient = new MongoClient();
 		
 		
 		DB db = mongoClient.getDB("testDB");

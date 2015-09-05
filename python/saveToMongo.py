@@ -45,7 +45,7 @@ def main(argv):
         # Maybe send empty string to DB
         pass
     
-    print(collection.find({'colorName':'red'}))
+    print(formatDict)
 
 def remove_dollarsign(obj):
     for key in obj.keys():
@@ -86,9 +86,10 @@ def legalDictInner(data, key, acceptedDict):
         else:
             possibleSize += 1
     
-    if len(data)/possibleSize > 5:
-        acceptedDict[key] = possibleSize
-    
+    if len(data)/possibleSize < 5:
+        del acceptedDict[key]
+
+    acceptedDict[key] = possibleSize      
     return acceptedDict
         
 if __name__ == "__main__":

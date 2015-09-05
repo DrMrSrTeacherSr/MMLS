@@ -81,6 +81,9 @@ def legalDictInner(data, key, acceptedDict):
             acceptedDict[key] = legalDict(data[key], acceptedDict[key])
         except:
             pass
+        if key == '_id':
+           del acceptedDict[key]
+           return acceptedDict
         if isinstance(data[key], list):
            del acceptedDict[key]
            return acceptedDict

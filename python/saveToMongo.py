@@ -66,7 +66,7 @@ def getFormatDict(jsonData):
     return dictionary
 
 def legalDict(data, formattedDict):
-    acceptedDict = formattedDict
+    acceptedDict = dict(formattedDict)
     for key in formattedDict:
         acceptedDict = legalDictInner(data, key, acceptedDict)
     return acceptedDict

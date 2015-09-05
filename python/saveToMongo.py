@@ -43,7 +43,7 @@ def main(argv):
         #print(formatDict)
         # Make all necessary formatting edits here
 #        formatDict = legalDict(data, formatDict)
-        #print(formatDict)
+        print(formatDict)
         db.drop_collection(sys.argv[2]+'format')
         formatColl = db[sys.argv[2]+'format']
         formatColl.insert_one(formatDict)
@@ -66,6 +66,7 @@ def remove_dollarsign(obj):
     
 def getFormatDict(jsonData):
     keys = jsonData.keys()
+    print(keys)
     dictionary = dict((el, '') for el in keys)
 #    for key in keys:
 #        try:

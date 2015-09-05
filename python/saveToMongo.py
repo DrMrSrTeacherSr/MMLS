@@ -14,9 +14,9 @@ def main(argv):
     data = json.loads(json_data, object_hook=remove_dollarsign)
     
     mongoClient = MongoClient()
-    db = mongoClient['testDb']
+    db = mongoClient['testerDb']
     
-    collection = db['testColl']
+    collection = db['testerColl']
     posts = db.posts
     
     patientCount = 0;

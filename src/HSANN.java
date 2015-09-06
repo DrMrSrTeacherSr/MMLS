@@ -22,7 +22,7 @@ public class HSANN {
 	public void run(){
 		for(int j = 0; j < 2000; j ++){
 			double[] value = {function(counter)};
-			double[] count = {counter};
+			double[] count = {counter%20};
 			buffer.add(minor.test(count, value)[2]);
 			counter++;
 			double[] majorIn = new double[20];
@@ -36,9 +36,11 @@ public class HSANN {
 			}
 		}
 	}
+	
+	
 
 	private double function(int counter){
-		return (Math.sin(counter/200.0) + 1)/2.3;
+		return (Math.sin(Math.pow(counter,2)/200.0) + 1)/2.3;
 	}
 	
 	/**

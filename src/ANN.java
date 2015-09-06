@@ -134,7 +134,7 @@ public class ANN {
 		}
 		
 		for(int i = 0; i < 10; i++){
-			System.out.print(neuralNetActivation[L-1][i]);
+			System.out.print(error[L-1][i] + " ");
 
 		}
 		System.out.println();

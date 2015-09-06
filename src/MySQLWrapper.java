@@ -13,7 +13,7 @@ public class MySQLWrapper implements IWrapper{
 	private static final String DB_URL = "jdbc:mysql://localhost/stockDB";
 
 	private static final String USER = "root";
-	private static final String PASS = "4thegalaxytabs";
+	private static final String PASS = "####";
 
 	private ANN neuralNetwork;
 	private boolean financialData = false;

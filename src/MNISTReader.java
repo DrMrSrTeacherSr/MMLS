@@ -70,12 +70,12 @@ public class MNISTReader {
 
 					// At this point, 'label' and 'image' agree and you can do whatever you like with them.
 					BasicDBObject doc = new BasicDBObject(args[2], 0)
-						.append("label", label);
-						
-						for(int i = 0; i < numCols; i++){
-							doc.append("image-"+i, image[i]);
-						}
-						
+						.append("label", label)
+						.append("image",image);
+//						for(int i = 0; i < numCols; i++){
+//							doc.append("image-"+i, image[i]);
+//						}
+//						
 						;
 					
 					coll.insert(doc);

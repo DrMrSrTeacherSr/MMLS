@@ -333,7 +333,7 @@ public class ANN {
         
         for(int i = 0; i < first.length; i++){
         	double sum = 0;
-        	for(int k = 0; k < first[0].length; k++){
+        	for(int k = 0; k < second.length; k++){
         		sum += first[i][k] * second[k];
         	}
         	out[i] = sum;

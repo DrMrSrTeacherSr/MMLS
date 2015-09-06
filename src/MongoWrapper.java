@@ -16,6 +16,7 @@ public class MongoWrapper {//implements IWrapper{
 	private DBCollection coll;
 
 	public static void main(String[]arg) throws UnknownHostException{
+		System.out.println("HERE");
 		MongoWrapper mw = new MongoWrapper();
 		mw.trainNetwork();
 	}

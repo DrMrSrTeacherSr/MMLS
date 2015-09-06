@@ -32,7 +32,7 @@ public class MongoWrapper {//implements IWrapper{
 	}
 	
 	public MongoWrapper() throws UnknownHostException{
-		int [] h = {300};
+		int [] h = {100};
 		neuralNetwork = new ANN(28*28, h, 10);
 		parameters = new ArrayList<String>();
 		parameters.add("label");

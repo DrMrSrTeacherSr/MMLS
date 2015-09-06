@@ -21,7 +21,8 @@ public class HandWritingWrapper {
 			mongoClient = new MongoClient();
 			db = mongoClient.getDB("MasterDB");
 			coll = db.getCollection("mnist");
-			
+			int[] te = {300};
+			ANN nn = new ANN(28*28,te,10);
 			BasicDBObject query = new BasicDBObject("test",0);
 			DBCursor data = coll.find(query);
 			int count = 0;
@@ -30,11 +31,18 @@ public class HandWritingWrapper {
 				double[] label = {(int) temp.get("label")};
 				double[] imageData = new double[28*28];
 				BasicDBList image = (BasicDBList) temp.get("image");
-
+				String it ="";
 				for(int i = 0; i < image.size(); i++){
-					System.out.println(image.get(i).toString());	
+					it+=image.get(i).toString();
 				}
-				System.out.println("----------------------------------------------");
+				it.replace(" ", "");
+				String[] strs = it.split(",");
+				
+				for(int i = 0; i < imageData.length; i++){
+					imageData[i] = Double.parseDouble(strs[i]);
+				}
+				double[]out = nn.test(imageData, label);
+				System.out.println(out[0] + " : " + out[1] );
 			}
 			
 			System.out.println(db.getCollectionNames());

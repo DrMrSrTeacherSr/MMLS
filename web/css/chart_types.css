@@ -87,3 +87,21 @@ Each bar of a table has the following components:
 	margin-top: 2%;
 	width: 80%;
 }
+
+
+#modal-graph-data-number-line .axis path,
+#modal-graph-data-number-line .axis line {
+    fill: none;
+    stroke: #90a4ae;
+    stroke-width: 5px;
+    shape-rendering: crispEdges;
+}
+
+#modal-graph-data-number-line .axis text {
+    font-size: 16px;
+}
+#modal-graph-data-number-line circle {
+	fill: steelblue;
+	r: 10px;
+}
+

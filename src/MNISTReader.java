@@ -28,8 +28,9 @@ public class MNISTReader {
 				DataInputStream images = new DataInputStream(new FileInputStream(args[1]));
 
 				mongoClient = new MongoClient();
-				db = mongoClient.getDB("MNISTDB");
-				coll = db.getCollection(args[2]);
+				db = mongoClient.getDB("MasterDB");
+				db.dropDatabase();
+				coll = db.getCollection("mnist");
 
 
 				int magicNumber = labels.readInt();
@@ -70,7 +71,12 @@ public class MNISTReader {
 					// At this point, 'label' and 'image' agree and you can do whatever you like with them.
 					BasicDBObject doc = new BasicDBObject(args[2], 0)
 						.append("label", label)
-						.append("image", image);
+						.append("image",image);
+//						for(int i = 0; i < numCols; i++){
+//							doc.append("image-"+i, image[i]);
+//						}
+//						
+						;
 					
 					coll.insert(doc);
 

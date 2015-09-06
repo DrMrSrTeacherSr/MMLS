@@ -92,6 +92,7 @@ public class MySQLWrapper implements IWrapper{
 		List<Double> buffer = new ArrayList<Double>();
 
 		for (Double[] s : trainingData.values()){
+			
 			if (s.length > historyLength) {
 				for(double d: s){
 					buffer.add(d);
@@ -162,9 +163,10 @@ public class MySQLWrapper implements IWrapper{
 			max = Math.max(max, d[i]);
 			min = Math.min(min, d[i]);
 		}
-		for(int i = 0; i < d.length; i++){
-			d[i] = (d[i] - min)/(max - min);
-		}
+//		for(int i = 0; i < d.length; i++){
+//			d[i] = (d[i] - min)/(max - min);
+//		}
+		d[d.length-1] = (d[d.length-1]-min)/(max - min);
 		return d;
 		
 	}

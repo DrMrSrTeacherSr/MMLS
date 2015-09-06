@@ -118,11 +118,8 @@ public class ANN {
 	 */
 	public double[] test(double[] values, double[] labels){
 		double[] settings = new double[2 + labels.length];
-		if(error[2].length == 1) System.exit(1);
 		feedForward(values);
-		if(error[2].length == 1) System.exit(2);
 		backPropogate(labels);
-		if(error[2].length == 1) System.exit(3);
 		trialCount++;
 		
 		double averageLastError = 0;
@@ -225,6 +222,8 @@ public class ANN {
 	 */
 	private void calculateErrorL(double[] y){
 		error[L - 1] = hadamarProduct(costGradient(L - 1, y),sigmoidPrime(neuralNetZ[L - 1]));
+		if(error[2].length == 1) System.exit(1);
+
 	}
 	
 	/**

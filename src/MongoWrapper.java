@@ -36,14 +36,15 @@ public class MongoWrapper {//implements IWrapper{
 	public String trainNetwork(){
 		
 		DBCursor curs = coll.find();
-		DBObject o = curs.next();
-		
-		String a = (String) (o.get("test"));
-
-		System.out.println(a);
-		Double b = (Double)o.get("label");
-		System.out.println(b);
-		Double[][] c = (Double[][]) o.get("image");
+//		DBObject o = curs.next();
+		String value = curs.next().toString();
+		System.out.println(value);
+//		String a = (String) (o.get("test"));
+//
+//		System.out.println(a);
+//		Double b = (Double)o.get("label");
+//		System.out.println(b);
+//		Double[][] c = (Double[][]) o.get("image");
 		
 		return null;
 		// RUN PREDICTION HERE

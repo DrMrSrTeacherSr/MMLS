@@ -24,14 +24,17 @@ public class HandWritingWrapper {
 			
 			BasicDBObject query = new BasicDBObject("test",0);
 			DBCursor data = coll.find(query);
+			int count = 0;
 			while(data.hasNext()){
 				DBObject temp = data.next();
-				int label = (int) temp.get("label");
+				double[] label = {(int) temp.get("label")};
+				double[] imageData = new double[28*28];
 				BasicDBList image = (BasicDBList) temp.get("image");
 
 				for(int i = 0; i < image.size(); i++){
-					System.out.println(image.get(i));	
+					imageData[i + 28*count] = Double.parseDouble(image.get(i).toString());	
 				}
+				count++;
 			}
 			
 			System.out.println(db.getCollectionNames());

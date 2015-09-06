@@ -155,6 +155,7 @@ public class MySQLWrapper {//implements IWrapper{
 				data.addProperty("TrueValues", t.var3);
 				data.addProperty("StdError", t.var1);
 				dataset.add(data);
+				time++;
 			}
 			JsonObject modelResult = new JsonObject();
 			modelResult.add("Results", dataset);

@@ -19,7 +19,6 @@ public class MNISTReader {
 	private MongoClient mongoClient;
 	private DB db;
 	private DBCollection coll;
-	private DBCollection sys;
 
 	public MNISTReader(String[] args){
 		if(args.length == 3){

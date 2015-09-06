@@ -100,10 +100,12 @@ public class MongoWrapper {//implements IWrapper{
 			
 			
 			double[] results = neuralNetwork.train(data, labels);
-			JsonObject res = new JsonObject();
-			res.addProperty("AverageError", results[0]);
-			res.addProperty("AverageSaturation", results[1]);
-			return res.getAsString();
+			System.out.println(results[0]);
+//			JsonObject res = new JsonObject();
+//			res.addProperty("AverageError", results[0]);
+//			res.addProperty("AverageSaturation", results[1]);
+//			return res.getAsString();
+			return null;
 		} else {
 			//General case
 			//Assume standardized form where every field is a double
@@ -133,7 +135,6 @@ public class MongoWrapper {//implements IWrapper{
 			}
 			//Train NN
 			double[] results = neuralNetwork.train(featureArray, labelArray);
-			System.out.println(results[0]);
 			JsonObject res = new JsonObject();
 			res.addProperty("AverageError", results[0]);
 			res.addProperty("AverageSaturation", results[1]);

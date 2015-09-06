@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class MySQLWrapper implements IWrapper{
 
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
@@ -14,6 +17,7 @@ public class MySQLWrapper implements IWrapper{
 	private static final String PASS = "4thegalaxytabs";
 
 	private ANN neuralNetwork;
+	private boolean financialData = false;
 
 	public static void main(String[] arg){
 		MySQLWrapper a = new MySQLWrapper();
@@ -26,7 +30,7 @@ public class MySQLWrapper implements IWrapper{
 	}
 
 	@Override
-	public void trainNetwork() {
+	public String trainNetwork() {
 		Connection conn = null;
 		Statement stmt = null;
 
@@ -86,9 +90,38 @@ public class MySQLWrapper implements IWrapper{
 			}//end finally try
 		}//end try
 
+		if (financialData){ //special case
+			List<triTuple<Double, Double, Double>> nnData = trainFinancialData(neuralNetwork, trainingData);
+			JsonArray dataset = new JsonArray();
+			int time = 0;
+			for (triTuple<Double, Double, Double> t : nnData){
+				JsonObject data = new JsonObject();
+				data.addProperty("Time", time);
+				data.addProperty("PredictedValues", t.var2);
+				data.addProperty("TrueValues", t.var3);
+				data.addProperty("StdError", t.var1);
+				dataset.add(data);
+			}
+			JsonObject modelResult = new JsonObject();
+			modelResult.add("results", dataset);
+			return modelResult.getAsString();
+		} else { // general cases
+			
+		}
+		return null;
+	}
+	
+	@Override
+	public int predict() {
+		
+		return 0;
+	}
+	
+	private List<triTuple<Double, Double, Double>> trainFinancialData(ANN neuralNetwork, Map<String, Double[]> trainingData){
 		int historyLength = 10;
 		List<Double> buffer = new ArrayList<Double>();
-
+		List<triTuple<Double, Double, Double>> resultsList = new ArrayList<triTuple<Double,Double,Double>>();
+		
 		for (Double[] s : trainingData.values()){
 			double max = Double.MIN_VALUE;
 			double min = Double.MAX_VALUE;
@@ -98,30 +131,36 @@ public class MySQLWrapper implements IWrapper{
 					buffer.add(d);
 					double[] values = new double[10];
 					if(buffer.size() > 10){
-
 						for(int i = 0; i < 10; i++){
 							values[i] = buffer.get(i);
 						}
 						double[] ele= {Math.max(0, Math.min(1.0, (buffer.get(10) - min)/(max-min)))};
 						double[] out = neuralNetwork.test(values, ele);
-						System.out.println("batch end " + out[0] + " : " + out[1] +  " : " + out[2] + " : " + ele[0] + " "+max+" "+min);
-						if (Double.isNaN(ele[0]))
-							System.exit(1);
+						resultsList.add(new triTuple<Double, Double, Double>(out[0], out[2], ele[0]));
+//						System.out.println("batch end " + out[0] + " : " + out[1] +  " : " + out[2] + " : " + ele[0]);
+//						if (Double.isNaN(ele[0]))
+//							System.exit(1);
 						buffer.remove(0);
-						//						System.out.println(neuralNetwork.toStringWeights());
-						//						System.out.println(d);
 					}
 					max = Math.max(max, d);
 					min = Math.min(min, d);
 				}
 			}
 		}
+		return resultsList;
 	}
-
-	@Override
-	public int predict() {
+	
+	protected class triTuple<K,T,L>{
 		
-		return 0;
+		protected K var1;
+		protected T var2;
+		protected L var3;
+		
+		public triTuple(K t1, T t2, L t3){
+			var1 = t1;
+			var2 = t2;
+			var3 = t3;
+		}
 	}
 
 }

@@ -1,10 +1,12 @@
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.util.JSON;
 
 
 public class MongoWrapper {//implements IWrapper{
@@ -15,7 +17,7 @@ public class MongoWrapper {//implements IWrapper{
 	private DB db;
 	private DBCollection coll;
 
-	public static void main(String[]arg) throws UnknownHostException{
+	public static void main(String[] arg) throws UnknownHostException{
 		System.out.println("HERE");
 		MongoWrapper mw = new MongoWrapper();
 		mw.trainNetwork();
@@ -36,7 +38,8 @@ public class MongoWrapper {//implements IWrapper{
 		DBCursor curs = coll.find();
 		DBObject o = curs.next();
 		
-		Double a = (Double)o.get("test");
+		String a = (String) (o.get("test"));
+
 		System.out.println(a);
 		Double b = (Double)o.get("label");
 		System.out.println(b);

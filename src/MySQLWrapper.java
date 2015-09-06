@@ -38,8 +38,8 @@ public class MySQLWrapper {//implements IWrapper{
 		try {
 		MySQLWrapper a = new MySQLWrapper();
 		
-		PrintWriter out = new PrintWriter("/public/MMLS/finance_data.txt");
-		out.write(a.trainNetwork());
+		PrintWriter out = new PrintWriter("/public/MMLS/finance_data2.txt");
+		out.write(a.trainNetwork("AC"));
 			
 		out.close();
 
@@ -63,7 +63,7 @@ public class MySQLWrapper {//implements IWrapper{
 		fields = input;
 	}
 
-	public String trainNetwork() {
+	public String trainNetwork(String alpha) {
 		Connection conn = null;
 		Statement stmt = null;
 		
@@ -77,7 +77,7 @@ public class MySQLWrapper {//implements IWrapper{
 			System.out.println("Creating statement...");
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT symbol, close_p FROM price WHERE symbol LIKE 'AC%';";
+			sql = "SELECT symbol, close_p FROM price WHERE symbol LIKE '"+alpha+"%';";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			if (financialData){

@@ -271,7 +271,7 @@ public class ANN {
 	 * @return gradient
 	 */
 	private double weightGradient(int l, int j, int k){
-		if(l == 1|| l == 0) return 1;
+		if(l == 1) return 1;
 		return neuralNetActivation[l - 1][k] * error[l][j];
 	}
 	

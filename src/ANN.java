@@ -113,6 +113,10 @@ public class ANN {
 	 * @param out
 	 */
 	public double[] test(double[] values, double[] labels){
+		for(int i = 0; i < values.length; i++){
+			System.out.print(values[i]+ "  " );
+			if(i%28 == 0)System.out.println();
+		}
 		double[] settings = new double[2 + labels.length];
 		feedForward(values);
 		backPropogate(labels);

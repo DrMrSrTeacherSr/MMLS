@@ -29,9 +29,9 @@ public class HandWritingWrapper {
 				int label = (int) temp.get("label");
 				BasicDBList image = (BasicDBList) temp.get("image");
 
-				
-			image.stream().forEach(x -> System.out.println(x.toString()));
-				
+				for(int i = 0; i < image.size(); i++){
+					System.out.println(image.get(i));	
+				}
 			}
 			
 			System.out.println(db.getCollectionNames());

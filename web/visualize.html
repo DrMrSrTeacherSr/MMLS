@@ -70,7 +70,7 @@
 
 		    <div class="row">
 				<div class="input-field col s12">
-					<input value="SELECT * FROM price WHERE symbol = 'GOOG'" id="sql_query" type="text" class="validate">
+					<input value="SELECT * FROM price WHERE symbol = 'GOOG' LIMIT 5" id="sql_query" type="text" class="validate">
 					<label class="active" for="sql_query">Write Query</label>
 				</div>
 		   </div>
@@ -79,6 +79,17 @@
 					<button id="run_sql_query" class="blue-grey waves-effect waves-light white-text btn-flat">Run Query</button>
 				</div>
 		   </div>
+		</div>
+	</div>
+
+	<div id="modal-fields" class="modal modal-fixed-header">
+		<div class="modal-content">
+			<form id="modal-fields-form">
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button id="modal-fields-submit" class="blue-grey waves-effect waves-light white-text btn-flat">Graph It!</button>
+			<button href="#!" class="modal-action modal-close blue-grey waves-effect waves-light white-text btn-flat ">Cancel</button>
 		</div>
 	</div>
 

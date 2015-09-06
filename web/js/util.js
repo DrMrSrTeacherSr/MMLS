@@ -17,6 +17,7 @@ function nextGraphColor() {
 
 function niceAlert(message) {
 	$('#modal-alert-body').html(message);
+	$('#modal-alert').openModal();
 }
 
 function get(name){

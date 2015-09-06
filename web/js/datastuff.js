@@ -2,6 +2,20 @@
 * Table Generation
 *****************************************************************/
 // Array Objects - shown with one item per row
+function tableHeaderForKeysOf(json) {
+	var head = $('<thead></thead>');
+	$.each(json, function(key, obj) {
+		head.append($('<th></th>').html(key));
+	});
+	return head;
+}
+function tableRowForValuesOf(json) {
+	var row = $('<tr></tr>');
+	$.each(json, function(key, obj) {
+		row.append(dataCellForValue(obj));
+	});
+	return row;
+}
 function tableForArray(array) {
 	var table = $('<table class="striped"></table>');
 	if (array.length == 0) {
@@ -12,6 +26,32 @@ function tableForArray(array) {
 		});
 	}
 	return table;
+}
+function topLevelArrayTable(array) {
+	var topLevel = $('<div></div>');
+	var table = $('<table class="striped"></table>');
+	topLevel.append(table);
+	if (array.length == 0) {
+		table.append('<tr><td><emph class="grey-text">Empty Array</emph></td></tr>');
+	} else {
+		if (array[0] instanceof Object) {
+			table.append(tableHeaderForKeysOf(array[0]));
+			var tableBody = $('<tbody></tbody>');
+			$.each(array, function() {
+				tableBody.append(tableRowForValuesOf(this));
+			});
+			table.append(tableBody);
+			var graphButton = $('<a class="blue-grey waves-effect waves-light white-text btn-flat"></a>')
+									.append('<i class="large material-icons">insert_chart</i>')
+									.click(function(){ selectFieldsFor(array); });
+			topLevel.append(graphButton);
+		} else {
+			$.each(array, function() {
+				table.append($('<tr></tr>').append(dataCellForValue(this)));
+			});
+		}
+	}
+	return topLevel;
 }
 // JSON Data - shown with one col for key, one for value for each row
 function tableHeaderForJSON() {
@@ -77,9 +117,13 @@ function dataCellForValue(value) {
 /*****************************************************************
 * Examples
 *****************************************************************/
-function displayDataInDiv(dataDivSelector, jsonData) {
+function displayDataInDiv(dataDivSelector, data) {
 	$(dataDivSelector).html('');
-	$(dataDivSelector).append(completeTableForJSON(jsonData));
+	if (data.constructor == Array) {
+		$(dataDivSelector).append(topLevelArrayTable(data));
+	} else {
+		$(dataDivSelector).append(completeTableForJSON(data));
+	}
 }
 var exampleData = {
 	key1: {},
@@ -129,7 +173,6 @@ var exampleData = {
 
 function showResponse(response) {
 	displayDataInDiv('#whereDataGoes', response);
-
 }
 function newSQLQuery() {
 	$('#modal-sql').openModal();
@@ -138,7 +181,7 @@ function newSQLQuery() {
 		var val = $('#sql_query').val();
 		if (val) {
 			$.get('http://45.79.175.230:8080/api', {q: val}, function(data, status, jqXHR) {
-				showResponse(data[0]);
+				showResponse(data);
 				$('#modal-sql').closeModal();
 			});
 		} else {

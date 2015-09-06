@@ -6,17 +6,17 @@ public class ANN {
 	
 	private int L;
 	
-	private double[][][] neuralNetWeights = {{{1},{1}},{{.15,.2}, {.25,.3}},{{.4,.45},{.5,.55}}};
+	private double[][][] neuralNetWeights;
 
-	private double[][] neuralNetBias = {{0,0},{.35,.35},{.6,.6}};
+	private double[][] neuralNetBias;
 
 	private double[][] neuralNetActivation;
 	private double[][] neuralNetZ;
 	
 	private double[][] error;
 
-	double weightsLearningRate = 1.5;
-	double biasLearningRate = 1.5;
+	private double weightsLearningRate = .75;
+	private double biasLearningRate = .75;
 
 	int trialCount = 0;
 	
@@ -268,7 +268,7 @@ public class ANN {
 	 * @return gradient
 	 */
 	private double weightGradient(int l, int j, int k){
-		if(l == 1 ) return 1;
+		if(l == 1) return 1;
 		return neuralNetActivation[l - 1][k] * error[l][j];
 	}
 	
@@ -415,5 +415,40 @@ public class ANN {
 		
 		return out;
 	}
+
+	
+	/**
+	 * @return the weightsLearningRate
+	 */
+
+	public double getWeightsLearningRate() {
+		return weightsLearningRate;
+	}
+
+
+	/**
+	 * @param weightsLearningRate the weightsLearningRate to set
+	 */
+	public void setWeightsLearningRate(double weightsLearningRate) {
+		this.weightsLearningRate = weightsLearningRate;
+	}
+
+	
+	/**
+	 * @return the biasLearningRate
+	 */
+	public double getBiasLearningRate() {
+		return biasLearningRate;
+	}
+
+
+	/**
+	 * @param biasLearningRate the biasLearningRate to set
+	 */
+	public void setBiasLearningRate(double biasLearningRate) {
+		this.biasLearningRate = biasLearningRate;
+	}
+	
+	
 	
 }

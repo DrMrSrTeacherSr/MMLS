@@ -20,10 +20,10 @@ public class MySQLWrapper implements IWrapper{
 	
 	private List<String> fields;
 
-//	public static void main(String[] arg){
-//		MySQLWrapper a = new MySQLWrapper();
-//		a.trainNetwork();
-//	}
+	public static void main(String[] arg){
+		MySQLWrapper a = new MySQLWrapper();
+		a.trainNetwork();
+	}
 
 	public MySQLWrapper() {
 		int [] h = {15,15,15};

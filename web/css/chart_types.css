@@ -104,6 +104,16 @@ Each bar of a table has the following components:
 	width: 80%;
 }
 
+#modal-graph-data-line-graph .axis {
+	fill: none;
+	stroke: #90A4AE;
+	stroke-width:;
+	shape-rendering: crispEdges;
+}
+#modal-graph-data-line-graph text {
+	fill: #90A4AE;
+	stroke: none;
+}
 
 #modal-graph-data-number-line .axis path,
 #modal-graph-data-number-line .axis line {

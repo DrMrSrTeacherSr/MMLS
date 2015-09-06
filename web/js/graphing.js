@@ -86,23 +86,47 @@ function fieldTypes(arrayToPlot) {
 	return typeList;
 }
 function validGraphsForData(data) {
-	data = cleanTypes(data);
 	var types = fieldTypes(data);
 	if (!types || types.length == 0) {
-		console.log("Empty array :/");
+		niceAlert("Cannot graph nothing :/");
 		return;
 	}
 	if (types.length == 1) {
 		var typeList = [Graph.types.PIE, Graph.types.HIST];
 		if (types[0] == "number") {
-			typeList.push(Graph.types.NUM_LINE);
+			typeList.push(Graph.types.NUM_LINE, Graph.types.LINE);
 		}
 		return typeList;
 	}
-	return [Graph.types.PIE, Graph.types.LINE, Graph.types.BAR];
+	return [Graph.types.LINE, Graph.types.BAR];
 }
 function presentGraphOptions(data) {
 	$('#modal-chooser-options').html('');
+
+	// Plot fields are numeric data
+	// Hist fields are things we can count
+	// 		automatically, or using another source row
+	var plot_fields = [];
+	var hist_fields = [];
+	data = cleanTypes(data);
+	var types = fieldTypes(data);
+
+	if (!types || types.length == 0) {
+		niceAlert("Cannot graph nothing :/");
+		return;
+	}
+
+	if (types.length == 1) {
+		hist_fields = types;
+		if (types[0] == "number") {
+			plot_fields.push(Graph.types.NUM_LINE);
+		}
+	} else {
+		// More than one type
+		// hist_fields = 
+	}
+
+
 	$.each(validGraphsForData(data), function() {
 		var graphType = this;
 		$('#modal-chooser-options').append(
@@ -241,7 +265,7 @@ function popUpNumberLine(data) {
 }
 
 function popUpLineGraph(data) {
-	var margin = {top: 20, right: 20, bottom: 30, left: 50};
+	var margin = {top: 20, right: 30, bottom: 30, left: 30};
 	$('#modal-graph-data').html('');
 	$('#modal-graph').openModal();
 	$('#modal-graph-data').append('<div class="center-align"><h3>Line Graph</h3></div>')

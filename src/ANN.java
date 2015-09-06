@@ -60,8 +60,6 @@ public class ANN {
 		neuralNetActivation[L - 1] = new double[outputNodesNum];
 		neuralNetZ[L - 1] = new double[outputNodesNum];
 		error[L - 1] = new double[outputNodesNum];
-		System.out.println("HERE : " + error[L-1].length+ " : " + L);
-
 		init();
 	}
 	
@@ -92,8 +90,6 @@ public class ANN {
 	public double[] train(double[][] values, double[][] labels){
 		double[] settings = new double[2 + labels[0].length];
 		for(int i = 0; i < values.length; i ++){
-			System.out.println("HERE : " + error[L-1].length+ " : " + L);
-
 			test(values[i], labels[i]);
 		}
 		
@@ -221,11 +217,7 @@ public class ANN {
 	 * @param y
 	 */
 	private void calculateErrorL(double[] y){
-		System.out.println("YYYYYY: " + y.length);
 		error[L - 1] = hadamarProduct(costGradient(L - 1, y),sigmoidPrime(neuralNetZ[L - 1]));
-		System.out.println(costGradient(L - 1, y).length + " : " + sigmoidPrime(neuralNetZ[L - 1]).length);
-		if(error[2].length == 1) System.exit(1);
-
 	}
 	
 	/**

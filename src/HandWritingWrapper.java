@@ -20,7 +20,7 @@ public class HandWritingWrapper {
 		try {
 			mongoClient = new MongoClient();
 			db = mongoClient.getDB("MasterDB");
-			coll = db.getCollection("MNISTDB");
+			coll = db.getCollection("mnist");
 			
 			BasicDBObject query = new BasicDBObject("training",0);
 			DBCursor data = coll.find(query);

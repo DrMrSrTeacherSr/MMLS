@@ -25,7 +25,6 @@ public class MongoWrapper {//implements IWrapper{
 	private ANN neuralNetwork;
 
 	public static void main(String[] arg) throws UnknownHostException{
-		System.out.println("HERE");
 		MongoWrapper mw = new MongoWrapper();
 		mw.trainNetwork();
 	}
@@ -39,8 +38,8 @@ public class MongoWrapper {//implements IWrapper{
 		//Populate list here using input string
 
 		mc = new MongoClient();
-		db = mc.getDB("MNISTDB");
-		coll = db.getCollection("test");
+		db = mc.getDB("MasterDB");
+		coll = db.getCollection("mnist");
 	}
 
 	public String trainNetwork(){

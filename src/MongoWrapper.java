@@ -30,7 +30,7 @@ public class MongoWrapper implements IWrapper{
 		
 	}
 
-	public void trainNetwork(){
+	public String trainNetwork(){
 		// send 2D param matrix and 1D/2D results matrix
 		int numberOfData = (int) coll.getCount();
 		double [][] params = new double [numberOfData][parameters.size()];
@@ -80,7 +80,7 @@ public class MongoWrapper implements IWrapper{
 			}
 			count++;
 		}
-
+		return null;
 		// RUN PREDICTION HERE
 	}
 

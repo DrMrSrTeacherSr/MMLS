@@ -1,6 +1,6 @@
 
 public interface IWrapper {
 
-	public void trainNetwork();
+	public String trainNetwork();
 	public int predict();
 }

@@ -60,7 +60,7 @@ public class ANN {
 		neuralNetActivation[L - 1] = new double[outputNodesNum];
 		neuralNetZ[L - 1] = new double[outputNodesNum];
 		error[L - 1] = new double[outputNodesNum];
-		System.out.println("HERE : " + error[L-1].length);
+		System.out.println("HERE : " + error[L-1].length+ " : " + L);
 
 		init();
 	}

@@ -13,7 +13,6 @@ public class HandWritingWrapper {
 	private MongoClient mongoClient;
 	private DB db;
 	private DBCollection coll;
-	private DBCollection sys;
 
 	
 	public HandWritingWrapper() {
@@ -22,8 +21,8 @@ public class HandWritingWrapper {
 			db = mongoClient.getDB("MNISTDB");
 			coll = db.getCollection("training");
 			
-			BasicDBObject query = new BasicDBObject("training",0);
-			DBCursor data = sys.find(query);
+			BasicDBObject query = new BasicDBObject("test",0);
+			DBCursor data = coll.find(query);
 			while(data.hasNext()){
 				DBObject temp = data.next();
 				byte label = (byte) temp.get("label");

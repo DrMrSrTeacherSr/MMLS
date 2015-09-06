@@ -38,7 +38,7 @@ public class MySQLWrapper {//implements IWrapper{
 		try {
 		MySQLWrapper a = new MySQLWrapper();
 		
-		PrintWriter out = new PrintWriter("finance_data.txt");
+		PrintWriter out = new PrintWriter("/public/MMLS/finance_data.txt");
 		out.write(a.trainNetwork());
 		
 

@@ -90,7 +90,7 @@ public class ANN {
 	public double[] train(double[][] values, double[][] labels){
 		double[] settings = new double[2 + labels[0].length];
 		for(int i = 0; i < values.length; i ++){
-			System.out.println(test(values[i], labels[i])[0]);
+			System.out.println(test(values[i], labels[i])[0]+ " : " + test(values[i], labels[i])[1]+ " : " + test(values[i], labels[i])[2] + " : " + test(values[i], labels[i])[3]);
 		}
 		
 		double averageLastError = 0;

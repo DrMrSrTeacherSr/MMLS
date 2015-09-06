@@ -60,15 +60,20 @@ function completeTableForJSON(jsonData) {
 *
 *****************************************************************/
 function dataCellForValue(value) {
-	html = '<td class="value-cell">';
+	html = '<td class="value-cell valign-wrapper">';
 	if (value.constructor === Array) {
-		html += '<ul class="collapsible" data-collapsible="accordion"><li>';
-		html += '<div class="collapsible-header array-cell-header">Array</div>';
-		html += '<div class="collapsible-body array-cell-detail">';
-		html += tableForArray(value);
-		html += '<a class="blue-grey waves-effect waves-light white-text btn-flat" data-array="'+value+'" onclick="graphArrayData(this)">GRAPH</a>'
+		html += '<div class="left valign"><p>Array ('+value.length+')</p></div>';
+		html += '<div class="right valign">';
+		html += '<a class="blue-grey waves-effect waves-light white-text btn-flat" data-array="'+value+'" onclick="tabulateArrayData(this)">Detail</a>'
+		html += '<a class="blue-grey waves-effect waves-light white-text btn-flat" data-array="'+value+'" onclick="graphArrayData(this)">Graph</a>'
 		html += '</div>';
-		html += '</li></ul>';
+		// html += '<ul class="collapsible" data-collapsible="accordion"><li>';
+		// html += '<div class="collapsible-header array-cell-header">Array</div>';
+		// html += '<div class="collapsible-body array-cell-detail">';
+		// html += tableForArray(value);
+		
+		// html += '</div>';
+		// html += '</li></ul>';
 	} else if (typeof value === 'object' && !(value instanceof String || value instanceof Number)) {
 		html += '<ul class="collapsible" data-collapsible="accordion"><li>';
 		html += '<div class="collapsible-header">Object</div>';

@@ -122,6 +122,10 @@ function presentGraphType(type, data) {
 		alert("Sorry, that graph type is coming soon :)");
 	}
 }
+function presentDataTable(data) {
+	$('#modal-table-data').html(tableForArray(data));
+	$('#modal-table').openModal();
+}
 
 
 /*****************************************************************
@@ -148,6 +152,35 @@ function presentGraphType(type, data) {
 // 		get scale() { return d3.scale.linear().domain([0, BarDataArrMax(this.data)]).range([0, this.max_bar_width]) }
 // 	}
 // }
+
+
+
+function popUpGraph(data) {
+	$('#modal-graph').openModal();
+	var data_width = d3.select('#modal-graph-data').style('width').match(/\d+/)[0];
+	var data_sizer = CreateChartSizer(data, data_width, .25, .10);
+
+	// var bar_containers = d3.select('#modal-graph-data')
+	// 						.selectAll('div')
+	// 						.data(data)
+	// 						.enter().append('div')
+	// 						.classed('bar_container', true);
+	// // Add labels, then bars, then data
+	// bar_containers.append('div')
+	//     .classed('bar_label', true)
+	//     .style('width', data_sizer.label_width)
+	//     .style('height', '100%')
+	//     .text(function(d) {return d.name;});
+	// bar_containers.append('div')
+	//     .classed('bar', true)
+	//     .style('width',( function(d) { return data_sizer.scale(d.data) + 'px'; }))
+	//     .style('height', '100%');
+	// bar_containers.append('div')
+	//  	.classed('bar_data', true)
+	//  	.style('width', function(d) { return (data_sizer.width - data_sizer.scale(d.data) - data_sizer.label_width + data_sizer.data_padding) + 'px'})
+	//  	.style('height', '100%')
+	//     .text(function(d) { return d.data; });
+}
 
 function CreateGraphicalData(data, maxWidth) {
 	return {
@@ -205,39 +238,20 @@ function popUpNumberLine(data) {
 }
 
 
-function popUpGraph(data) {
-	$('#modal-graph').openModal();
-	var data_width = d3.select('#modal-graph-data').style('width').match(/\d+/)[0];
-	var data_sizer = CreateChartSizer(data, data_width, .25, .10);
-
-	// var bar_containers = d3.select('#modal-graph-data')
-	// 						.selectAll('div')
-	// 						.data(data)
-	// 						.enter().append('div')
-	// 						.classed('bar_container', true);
-	// // Add labels, then bars, then data
-	// bar_containers.append('div')
-	//     .classed('bar_label', true)
-	//     .style('width', data_sizer.label_width)
-	//     .style('height', '100%')
-	//     .text(function(d) {return d.name;});
-	// bar_containers.append('div')
-	//     .classed('bar', true)
-	//     .style('width',( function(d) { return data_sizer.scale(d.data) + 'px'; }))
-	//     .style('height', '100%');
-	// bar_containers.append('div')
-	//  	.classed('bar_data', true)
-	//  	.style('width', function(d) { return (data_sizer.width - data_sizer.scale(d.data) - data_sizer.label_width + data_sizer.data_padding) + 'px'})
-	//  	.style('height', '100%')
-	//     .text(function(d) { return d.data; });
-}
-
-
 function graphArrayData(triggerElement) {
 	var elementData = $(triggerElement).data();
 	if (elementData && elementData['array']) {
 		var dataAsArray = elementData['array'].split(',');
 		presentGraphOptions(dataAsArray);
+	} else {
+		console.log('No data found to graph for ' + triggerElement);
+	}
+}
+function tabulateArrayData(triggerElement) {
+	var elementData = $(triggerElement).data();
+	if (elementData && elementData['array']) {
+		var dataAsArray = elementData['array'].split(',');
+		presentDataTable(dataAsArray);
 	} else {
 		console.log('No data found to graph for ' + triggerElement);
 	}

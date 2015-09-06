@@ -3,7 +3,11 @@
 	
 }
 .value-cell {
-	width: 80%;
+	width: 60%;
+}
+.value-cell a.btn-flat {
+	margin-left: 0.25em;
+	text-transform: none;
 }
 
 /* Array detail views */

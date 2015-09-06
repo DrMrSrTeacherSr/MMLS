@@ -28,9 +28,9 @@ public class MNISTReader {
 				DataInputStream images = new DataInputStream(new FileInputStream(args[1]));
 
 				mongoClient = new MongoClient();
-				db = mongoClient.getDB("MNISTDB");
+				db = mongoClient.getDB("MasterDB");
 				db.dropDatabase();
-				coll = db.getCollection(args[2]);
+				coll = db.getCollection("mnist");
 
 
 				int magicNumber = labels.readInt();

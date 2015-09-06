@@ -105,7 +105,9 @@ public class MySQLWrapper implements IWrapper{
 						}
 						double[] ele= {Math.max(0, Math.min(1.0, (buffer.get(10) - min)/(max-min)))};
 						double[] out = neuralNetwork.test(values, ele);
-						System.out.println("batch end " + out[0] + " : " + out[1] +  " : " + out[2] + " : " + ele[0]);
+						System.out.println("batch end " + out[0] + " : " + out[1] +  " : " + out[2] + " : " + ele[0] + " "+max+" "+min);
+						if (Double.isNaN(ele[0]))
+							System.exit(1);
 						buffer.remove(0);
 						//						System.out.println(neuralNetwork.toStringWeights());
 						//						System.out.println(d);

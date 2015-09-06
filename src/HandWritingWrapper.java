@@ -1,5 +1,6 @@
 import java.net.UnknownHostException;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -26,7 +27,7 @@ public class HandWritingWrapper {
 			while(data.hasNext()){
 				DBObject temp = data.next();
 				int label = (int) temp.get("label");
-				int[][] image = (int[][]) temp.get("image");
+				BasicDBList image = (BasicDBList) temp.get("image");
 
 				
 				System.out.println(label);

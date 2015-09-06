@@ -6,6 +6,8 @@
 	width: 60%;
 }
 .value-cell a.btn-flat {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 	margin-left: 0.25em;
 	text-transform: none;
 }

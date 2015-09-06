@@ -16,39 +16,38 @@ function pseudoUUID() {
 *****************************************************************/
 // Array Objects - shown with one item per row
 function tableForArray(array) {
-	var html = '<table class="striped">';
+	var table = $('<table class="striped"></table>');
 	if (array.length == 0) {
-		html += '<tr><td><emph class="grey-text">Empty Array</emph></td></tr>';
+		table.append('<tr><td><emph class="grey-text">Empty Array</emph></td></tr>');
 	} else {
 		$.each(array, function() {
-			html += '<tr>'+dataCellForValue(this)+'</tr>';
+			table.append($('<tr></tr>').append(dataCellForValue(this)));
 		});
 	}
-	html += '</table>';
-	return html;
+	return table;
 }
 // JSON Data - shown with one col for key, one for value for each row
 function tableHeaderForJSON() {
-	return '<thead><tr><th data-field="key">Key</th><th data-field="value">Value</th></tr></thead>';
+	return $('<thead><tr><th data-field="key">Key</th><th data-field="value">Value</th></tr></thead>');
 }
 function tableBodyForJSON(jsonData) {
-	var html = '<tbody>';
+	var tbody = $('<tbody></tbody>')
 	if (jsonData.length == 0) {
-		html += '<tr><td><emph class="grey-text">No Object Information</emph></tr></td>';
+		tbody.append('<tr><td><emph class="grey-text">No Object Information</emph></tr></td>');
 	} else {
 		$.each(jsonData, function(key, value) {
-			html += '<tr><td class="key-data">'+key+'</td>'+dataCellForValue(value)+'</tr>';
+			var row = $('<tr></tr>');
+			row.append('<td class="key-data">'+key+'</td>');
+			row.append(dataCellForValue(value));
+			tbody.append(row);
 		});
 	}
-	html += '</tbody>';
-	return html;
+	return tbody;
 }
 function completeTableForJSON(jsonData) {
-	var html = '<table class="striped">';
-	html += tableHeaderForJSON();
-	html += tableBodyForJSON(jsonData);
-	html += '</table>';
-	return html;
+	var header = tableHeaderForJSON();
+	var body = tableBodyForJSON(jsonData);
+	return $('<table class="striped"></table>').append(header).append(body);
 }
 
 /*****************************************************************
@@ -60,30 +59,31 @@ function completeTableForJSON(jsonData) {
 *
 *****************************************************************/
 function dataCellForValue(value) {
-	html = '<td class="value-cell valign-wrapper">';
+	var cell = $('<td class="value-cell valign-wrapper"></td>');
+	cell.data('value', value);
 	if (value.constructor === Array) {
-		html += '<div class="left valign"><p>Array ('+value.length+')</p></div>';
-		html += '<div class="right valign">';
-		html += '<a class="blue-grey waves-effect waves-light white-text btn-flat" data-array="'+value+'" onclick="tabulateArrayData(this)">Detail</a>'
-		html += '<a class="blue-grey waves-effect waves-light white-text btn-flat" data-array="'+value+'" onclick="graphArrayData(this)">Graph</a>'
-		html += '</div>';
-		// html += '<ul class="collapsible" data-collapsible="accordion"><li>';
-		// html += '<div class="collapsible-header array-cell-header">Array</div>';
-		// html += '<div class="collapsible-body array-cell-detail">';
-		// html += tableForArray(value);
-		
-		// html += '</div>';
-		// html += '</li></ul>';
-	} else if (typeof value === 'object' && !(value instanceof String || value instanceof Number)) {
-		html += '<ul class="collapsible" data-collapsible="accordion"><li>';
-		html += '<div class="collapsible-header">Object</div>';
-		html += '<div class="collapsible-body">'+completeTableForJSON(value)+'</div>';
-		html += '</li></ul>';
+		cell.append('<div class="left valign"><p>Array ('+value.length+')</p></div>');
+		if (value.length > 0) {
+			var buttonArea = $('<div class="right valign"></div>');
+			var tableButton = $('<a class="blue-grey waves-effect waves-light white-text btn-flat"></a>')
+									.append('<i class="large material-icons">list</i>')
+									.click(function(){ presentDataTable(cell.data('value')); });
+			var graphButton = $('<a class="blue-grey waves-effect waves-light white-text btn-flat"></a>')
+									.append('<i class="large material-icons">insert_chart</i>')
+									.click(function(){ presentGraphOptions(cell.data('value')); });
+			cell.append(buttonArea.append(tableButton).append(graphButton));
+		}
+	} else if (typeof value == 'object' && !(value instanceof String || value instanceof Number)) {
+
+		var collapseWrapper = $('<ul class="collapsible" data-collapsible="accordion"></ul>');
+		var collapse = $('<li></li>');
+		collapse.append($('<div class="collapsible-header">Object</div>'));
+		collapse.append($('<div class="collapsible-body"></div>').append(completeTableForJSON(value)));
+		cell.append(collapseWrapper.append(collapse));
 	} else {
-		html += value
+		cell.html(value);
 	}
-	html += '</td>';
-	return html;
+	return cell;
 }
 
 
@@ -100,7 +100,16 @@ var exampleData = {
 	key4: [],
 	key5: [1.2, 3.4, 5.6],
 	key6: "MOAR DATA",
-	key7: { subkey: 'subkey 1 data', subkey2: 'subkey 2 data'},
+	key7: [
+		{'name': 'one', 'asdf': 1.0},
+		{'name': 'two', ';ljk': 4.0},
+		{'name': 'three', '1': 9.0},
+		{'name': 'four', ';2': 16.0},
+		{'name': 'five', ';3': 25},
+		{'name': 'six', '1': 36.0},
+		{'name': 'seven', ';2': 49.0},
+		{'name': 'eight', ';3': 64.0}
+	],
 	key8: 'last data'
 };
 displayDataInDiv('#whereDataGoes', exampleData);

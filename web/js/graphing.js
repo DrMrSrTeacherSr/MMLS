@@ -72,9 +72,11 @@ function fieldTypes(arrayToPlot) {
 	if (arrayToPlot.length == 0) {
 		return null;
 	}
-	var metaType = typeof arrayToPlot[0];
-	if (metaType == "string" || metaType == "number") {
-		return [metaType];
+	if (typeof arrayToPlot[0] == 'string' || arrayToPlot[0] instanceof String) {
+		return ["string"];
+	}
+	if (typeof arrayToPlot[0] == 'number' || arrayToPlot[0] instanceof Number) {
+		return ["number"];
 	}
 	var typeList = [];
 	$.each(arrayToPlot[0], function(key, value) {
@@ -87,7 +89,7 @@ function validGraphsForData(data) {
 	data = cleanTypes(data);
 	var types = fieldTypes(data);
 	if (!types || types.length == 0) {
-		console.error("Yo give me better data, that's not an array");
+		console.log("Empty array :/");
 		return;
 	}
 	if (types.length == 1) {
@@ -106,16 +108,19 @@ function validGraphsForData(data) {
 function presentGraphOptions(data) {
 	$('#modal-chooser-options').html('');
 	$.each(validGraphsForData(data), function() {
-		var buttonHTML = '<div><button class="light-blue darken-2 waves-effect waves-light white-text btn-flat"'
-		buttonHTML += ' onclick="presentGraphType(\''+this+'\',['+data+'])">';
-		buttonHTML += this;
-		buttonHTML += '</button></div>'
-		$('#modal-chooser-options').append(buttonHTML);
+		var graphType = this;
+		$('#modal-chooser-options').append(
+			$('<button></button>').addClass('light-blue darken-2 waves-effect waves-light white-text btn-flat')
+						.html(this)
+						.click(function() {
+							presentGraphType(graphType, data);
+						})
+		);
 	});
 	$('#modal-chooser').openModal();
 }
 function presentGraphType(type, data) {
-	$('#modal-chooser').closeModal();
+		$('#modal-chooser').closeModal();
 	if (type == Graph.types.NUM_LINE) {
 		popUpNumberLine(data);
 	} else {
@@ -235,25 +240,5 @@ function popUpNumberLine(data) {
 	      .attr("transform", "translate(0," + height/2.0 + ")")
 	      .attr("r", 5);
 
-}
-
-
-function graphArrayData(triggerElement) {
-	var elementData = $(triggerElement).data();
-	if (elementData && elementData['array']) {
-		var dataAsArray = elementData['array'].split(',');
-		presentGraphOptions(dataAsArray);
-	} else {
-		console.log('No data found to graph for ' + triggerElement);
-	}
-}
-function tabulateArrayData(triggerElement) {
-	var elementData = $(triggerElement).data();
-	if (elementData && elementData['array']) {
-		var dataAsArray = elementData['array'].split(',');
-		presentDataTable(dataAsArray);
-	} else {
-		console.log('No data found to graph for ' + triggerElement);
-	}
 }
 

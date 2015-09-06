@@ -30,7 +30,7 @@ public class HandWritingWrapper {
 				BasicDBList image = (BasicDBList) temp.get("image");
 
 				
-				System.out.println(label);
+				System.out.println(image.size());
 				
 			}
 			

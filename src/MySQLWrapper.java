@@ -1,11 +1,25 @@
-import java.sql.*;
+import java.net.UnknownHostException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+
+
 
 public class MySQLWrapper {//implements IWrapper{
 
@@ -15,14 +29,43 @@ public class MySQLWrapper {//implements IWrapper{
 	private static final String USER = "root";
 	private static final String PASS = "4thegalaxytabs";
 
+	private static MongoClient mongoClient;
+	private static DB db;
+	private static DBCollection coll;
+	
 	private ANN neuralNetwork;
 	private boolean financialData = false;
 	
 	private List<String> fields;
 
 	public static void main(String[] arg){
+		
+		try {
+			mongoClient = new MongoClient();
+		
+		db = mongoClient.getDB("MasterDB");
+		db.dropDatabase();
+		coll = db.getCollection("ann_finance");
 		MySQLWrapper a = new MySQLWrapper();
-		a.trainNetwork();
+		
+//		BasicDBObject doc = new BasicDBObject(args[2], 0)
+//		.append("label", label)
+//		.append("image",image);
+		
+		String out = a.trainNetwork();
+		
+		JsonElement jelement = new JsonParser().parse(out);
+	    JsonObject  jobject = jelement.getAsJsonObject();
+	    System.out.println(out);
+	    System.out.println(jobject.getAsString());
+//	    jobject = jobject.getAs("data");
+//	    JsonArray jarray = jobject.getAsJsonArray("translations");
+//	    jobject = jarray.get(0).getAsJsonObject();
+//	    String result = jobject.get("translatedText").toString();		
+		
+		}catch (UnknownHostException e) {
+				e.printStackTrace();
+		}
 	}
 
 	public MySQLWrapper() {

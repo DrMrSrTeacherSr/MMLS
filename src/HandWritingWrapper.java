@@ -33,7 +33,7 @@ public class HandWritingWrapper {
 				
 			}
 			
-			
+			System.out.println("I ran");
 			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

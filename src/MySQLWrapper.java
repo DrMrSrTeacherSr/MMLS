@@ -87,7 +87,7 @@ public class MySQLWrapper implements IWrapper{
 			}//end finally try
 		}//end try
 		
-		int historyLength = 20;
+		int historyLength = 10;
 		int counter = 0;
 		List<Double> buffer = new ArrayList<Double>();
 
@@ -95,20 +95,20 @@ public class MySQLWrapper implements IWrapper{
 			if (s.length > historyLength) {
 				for(double d: s){
 					buffer.add(d);
-					double[] values = new double[21];
-					if(buffer.size() > 21){
+					double[] values = new double[11];
+					if(buffer.size() > 11){
 						buffer.remove(0);
 						
-						for(int i = 0; i < 21; i++){
+						for(int i = 0; i < 11; i++){
 							values[i] = buffer.get(i);
 						}
 						values = normilize(values);
-						double[] values2 = new double[20];
+						double[] values2 = new double[10];
 
-						for(int i = 0; i < 20; i++){
+						for(int i = 0; i < 10; i++){
 							values2[i] = values[i];
 						}
-						double[] ele= {values[20]};
+						double[] ele= {values[10]};
 						double[] out = neuralNetwork.test(values2, ele);
 						System.out.println("batch end " + out[0] + " : " + out[1] +  " : " + out[2] + " : " + ele[0]);
 					}

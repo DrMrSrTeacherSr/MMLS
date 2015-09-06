@@ -84,9 +84,9 @@ public class MongoWrapper {//implements IWrapper{
 			}
 			//Train NN
 			ArrayList<Double> labelList = trainingData.get("labels");
-			double[][] labels = new double[labelList.size()][1];
+			double[][] labels = new double[labelList.size()][10];
 			for (int ii = 0; ii < labels.length; ii++){
-				labels[ii][0] = labelList.get(ii);
+				labels[ii][(int)((double)labelList.get(ii))] = 1;
 			}
 			double[][] data = new double [mnistImages.size()][mnistImages.get(0).size()];
 			int iCount = 0;
@@ -97,7 +97,8 @@ public class MongoWrapper {//implements IWrapper{
 				iCount++;
 			}
 			
-			System.out.println("Data: "+ data.length + " : " + data[0].length);
+			
+			
 			double[] results = neuralNetwork.train(data, labels);
 			JsonObject res = new JsonObject();
 			res.addProperty("AverageError", results[0]);

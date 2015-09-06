@@ -1,5 +1,6 @@
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class MongoWrapper {//implements IWrapper{
 	private DB db;
 	private DBCollection coll;
 	private ANN neuralNetwork;
+	private boolean mnist = false;
 
 	public static void main(String[] arg) throws UnknownHostException{
 		MongoWrapper mw = new MongoWrapper();
@@ -32,14 +34,15 @@ public class MongoWrapper {//implements IWrapper{
 	public MongoWrapper() throws UnknownHostException{
 		int [] h = {15,15,15};
 		neuralNetwork = new ANN(10, h, 1);
-		
-		collectionName = "FinalOutput";
 		parameters = new ArrayList<String>();
+		parameters.add("label");
+		parameters.add("image");
 		//Populate list here using input string
 
 		mc = new MongoClient();
 		db = mc.getDB("MasterDB");
 		coll = db.getCollection("mnist");
+		mnist = true;
 	}
 
 	public String trainNetwork(){
@@ -59,39 +62,79 @@ public class MongoWrapper {//implements IWrapper{
 //		System.out.println(image.length);
 		
 		Map<String, ArrayList<Double>> trainingData = new HashMap<String, ArrayList<Double>>();
-		
-		//Assume standardized form where every field is a double
-		DBCursor curs = coll.find();
-		while (curs.hasNext()){
-			DBObject o = curs.next();
-			for (String p : parameters){ //First param is labels
-				if (!trainingData.containsKey(p)){
-					trainingData.put(p, new ArrayList<Double>());
+		List<ArrayList<Double>> mnistImages = new ArrayList<ArrayList<Double>>();
+		if (mnist){
+			JsonParser parser = new JsonParser();
+			Gson gson = new Gson();
+			trainingData.put("labels", new ArrayList<Double>());
+			// Format data specifically for MNIST and set up proper network size
+			DBCursor curs = coll.find();
+			while (curs.hasNext()){//Load Data
+				String data = curs.next().toString();
+				JsonObject o = (JsonObject)parser.parse(data);
+				double number = o.get("label").getAsInt();
+				Double[][] image = gson.fromJson(o.get("image"), Double[][].class);
+				
+				ArrayList<Double> imgList = new ArrayList<Double>();
+				for (Double[] a : image){
+					imgList.addAll(Arrays.asList(a));
 				}
-				trainingData.get(p).add((Double) o.get(p));
+				mnistImages.add(imgList);
+				trainingData.get("labels").add(number);
 			}
-		}
-		
-		// Train network and get prediction
-		ArrayList<Double> labels = trainingData.get(0);
-		double[][] labelArray = new double [labels.size()][1];
-		for (int ii = 0; ii < labels.size(); ii++){
-			labelArray[ii][0] = labels.get(ii);
-		}
-		double[][] featureArray = new double [labels.size()][trainingData.keySet().size()-1];
-		int fCount = 0;
-		for (String f : trainingData.keySet()){
-			ArrayList<Double> vals = trainingData.get(f);
-			for (int ii = 0; ii < vals.size(); ii++){
-				featureArray[ii][fCount] = vals.get(ii);
+			//Train NN
+			ArrayList<Double> labelList = trainingData.get("labels");
+			double[][] labels = new double[labelList.size()][1];
+			for (int ii = 0; ii < labels.length; ii++){
+				labels[ii][0] = labelList.get(ii);
 			}
+			double[][] data = new double [mnistImages.size()][mnistImages.get(0).size()];
+			int iCount = 0;
+			for (ArrayList<Double> img : mnistImages){
+				for (int ii = 0; ii < img.size(); ii++){
+					data[iCount][ii] = img.get(ii);
+				}
+				iCount++;
+			}
+			double[] results = neuralNetwork.train(data, labels);
+			JsonObject res = new JsonObject();
+			res.addProperty("AverageError", results[0]);
+			res.addProperty("AverageSaturation", results[1]);
+			return res.getAsString();
+		} else {
+			//General case
+			//Assume standardized form where every field is a double
+			DBCursor curs = coll.find();
+			while (curs.hasNext()){
+				DBObject o = curs.next();
+				for (String p : parameters){ //First param is labels
+					if (!trainingData.containsKey(p)){
+						trainingData.put(p, new ArrayList<Double>());
+					}
+					trainingData.get(p).add((Double) o.get(p));
+				}
+			}
+			// Train network and get prediction
+			ArrayList<Double> labels = trainingData.get(0);
+			double[][] labelArray = new double [labels.size()][1];
+			for (int ii = 0; ii < labels.size(); ii++){
+				labelArray[ii][0] = labels.get(ii);
+			}
+			double[][] featureArray = new double [labels.size()][trainingData.keySet().size()-1];
+			int fCount = 0;
+			for (String f : trainingData.keySet()){
+				ArrayList<Double> vals = trainingData.get(f);
+				for (int ii = 0; ii < vals.size(); ii++){
+					featureArray[ii][fCount] = vals.get(ii);
+				}
+			}
+			//Train NN
+			double[] results = neuralNetwork.train(featureArray, labelArray);
+			JsonObject res = new JsonObject();
+			res.addProperty("AverageError", results[0]);
+			res.addProperty("AverageSaturation", results[1]);
+			return res.getAsString();
 		}
-		//Train NN
-		double[] results = neuralNetwork.train(featureArray, labelArray);
-		JsonObject res = new JsonObject();
-		res.addProperty("AverageError", results[0]);
-		res.addProperty("AverageSaturation", results[1]);
-		return res.getAsString();
 	}
 
 	public int predict(){

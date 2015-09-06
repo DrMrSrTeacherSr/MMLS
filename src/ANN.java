@@ -135,6 +135,7 @@ public class ANN {
 		settings[1] = averageSaturation;
 		
 		System.out.println("Hello");
+		System.out.println(labels.length);
 		System.out.println("Hello2");
 
 		return settings;

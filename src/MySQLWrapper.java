@@ -54,7 +54,7 @@ public class MySQLWrapper {//implements IWrapper{
 			System.out.println("Creating statement...");
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT symbol, close_p FROM price WHERE symbol LIKE 'A%'";
+			sql = "SELECT symbol, close_p FROM price WHERE symbol LIKE 'AC%';";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			if (financialData){

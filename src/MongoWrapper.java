@@ -133,6 +133,7 @@ public class MongoWrapper {//implements IWrapper{
 			}
 			//Train NN
 			double[] results = neuralNetwork.train(featureArray, labelArray);
+			System.out.println(results[0]);
 			JsonObject res = new JsonObject();
 			res.addProperty("AverageError", results[0]);
 			res.addProperty("AverageSaturation", results[1]);

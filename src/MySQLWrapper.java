@@ -136,7 +136,7 @@ public class MySQLWrapper implements IWrapper{
 			}
 			JsonObject modelResult = new JsonObject();
 			modelResult.add("Results", dataset);
-			return modelResult.getAsString();
+			return modelResult.toString();
 		} else { // general cases
 			ArrayList<Double> labels = trainingData.get(0);
 			double[][] labelArray = new double [labels.size()][1];
@@ -156,7 +156,7 @@ public class MySQLWrapper implements IWrapper{
 			JsonObject res = new JsonObject();
 			res.addProperty("AverageError", results[0]);
 			res.addProperty("AverageSaturation", results[1]);
-			return res.getAsString();
+			return res.toString();
 		}
 	}
 

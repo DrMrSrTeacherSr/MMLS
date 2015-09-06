@@ -110,7 +110,7 @@ public class MongoWrapper {//implements IWrapper{
 //			JsonObject res = new JsonObject();
 //			res.addProperty("AverageError", results[0]);
 //			res.addProperty("AverageSaturation", results[1]);
-//			return res.getAsString();
+//			return res.toString();
 			return null;
 		} else {
 			//General case
@@ -144,7 +144,7 @@ public class MongoWrapper {//implements IWrapper{
 			JsonObject res = new JsonObject();
 			res.addProperty("AverageError", results[0]);
 			res.addProperty("AverageSaturation", results[1]);
-			return res.getAsString();
+			return res.toString();
 		}
 	}
 

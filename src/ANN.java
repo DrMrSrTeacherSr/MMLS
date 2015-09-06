@@ -220,7 +220,6 @@ public class ANN {
 	 * @param y
 	 */
 	private void calculateErrorL(double[] y){
-		System.out.println("LENGTH: " + y.length);
 		error[L - 1] = hadamarProduct(costGradient(L - 1, y),sigmoidPrime(neuralNetZ[L - 1]));
 	}
 	
@@ -268,7 +267,7 @@ public class ANN {
 	 * @return gradient
 	 */
 	private double weightGradient(int l, int j, int k){
-		System.out.println(l +" : " +j + " : " + k+ " : " + error.length+ " : " + error[2].length);
+		System.out.println(l +" : " +j + " : " + k+ " : " + error.length+ " : " + error[0].length + " : " + error[1].length+ " : " +error[2].length);
 		if(l == 1|| l == 0) return 1;
 		return neuralNetActivation[l - 1][k] * error[l][j];
 	}

@@ -94,6 +94,7 @@ public class MySQLWrapper implements IWrapper{
 		for (Double[] s : trainingData.values()){
 			double max = Double.MIN_VALUE;
 			double min = Double.MAX_VALUE;
+			buffer = new ArrayList<Double>();
 			if (s.length > historyLength) {
 				for(double d: s){
 					buffer.add(d);

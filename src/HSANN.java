@@ -20,7 +20,7 @@ public class HSANN {
 	}
 	
 	public void run(){
-		for(int j = 0; j < 2000000; j ++){
+		for(int j = 0; j < 2000; j ++){
 			double[] value = {function(counter)};
 			double[] count = {counter};
 			buffer.add(minor.test(count, value)[2]);

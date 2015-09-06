@@ -222,6 +222,7 @@ public class ANN {
 	 */
 	private void calculateErrorL(double[] y){
 		error[L - 1] = hadamarProduct(costGradient(L - 1, y),sigmoidPrime(neuralNetZ[L - 1]));
+		System.out.println(costGradient(L - 1, y).length + " : " + sigmoidPrime(neuralNetZ[L - 1]).length);
 		if(error[2].length == 1) System.exit(1);
 
 	}

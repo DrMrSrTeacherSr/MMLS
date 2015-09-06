@@ -16,7 +16,12 @@
 	    	<div id="whereDataGoes" class="col s12">
 	    		<!-- Imagine table of data here -->
 		    </div>
-	   </div>
+	    </div>
+		<div class="row">
+			<div class="center col s12">
+				<button class="blue-grey waves-effect waves-light white-text btn-flat" onclick="newSQLQuery();">New Query</button>
+			</div>
+		</div>
 	</div>
 
 	<div id="modal-graph" class="modal modal-fixed-footer">
@@ -52,6 +57,28 @@
 		</div>
 		<div class="modal-footer">
 			<a href="#!" class="modal-action modal-close blue-grey waves-effect waves-light white-text btn-flat ">Cancel</a>
+		</div>
+	</div>
+
+	<div id="modal-sql" class="modal modal-fixed-header">
+		<div class="modal-content">
+			<div class="row">
+				<div class="col s12">
+				    <h2 class="center-align">Querator</h2>
+				</div>
+			</div>
+
+		    <div class="row">
+				<div class="input-field col s12">
+					<input value="SELECT * FROM price WHERE symbol = 'GOOG'" id="sql_query" type="text" class="validate">
+					<label class="active" for="sql_query">Write Query</label>
+				</div>
+		   </div>
+		   <div class="row">
+				</div class="section col s12">
+					<button id="run_sql_query" class="blue-grey waves-effect waves-light white-text btn-flat">Run Query</button>
+				</div>
+		   </div>
 		</div>
 	</div>
 

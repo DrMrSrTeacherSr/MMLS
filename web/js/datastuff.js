@@ -127,7 +127,31 @@ var exampleData = {
 				{"data5": 36.02289190437297, "data4": 11.199345374341995, "data6": 28.96855699803331, "data1": 10.565993467874256, "data3": 2.572297498572068, "data2": 19.883458361362898}]
 };
 
+function showResponse(response) {
+	displayDataInDiv('#whereDataGoes', response);
+
+}
+function newSQLQuery() {
+	$('#modal-sql').openModal();
+
+	$('#run_sql_query').click(function() {
+		var val = $('#sql_query').val();
+		if (val) {
+			$.get('http://45.79.175.230:8080/api', {q: val}, function(data, status, jqXHR) {
+				showResponse(data[0]);
+				$('#modal-sql').closeModal();
+			});
+		} else {
+			niceAlert('Please enter a query');
+		}
+	});
+}
+
 var urlData = get('data');
-var parsed = JSON.parse(urlData);
-displayDataInDiv('#whereDataGoes', parsed);
+if (urlData) {
+	var parsed = JSON.parse(response);
+	showResponse(parsed);
+} else {
+	newSQLQuery();
+}
 	

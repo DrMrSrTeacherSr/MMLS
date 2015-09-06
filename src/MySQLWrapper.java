@@ -40,7 +40,8 @@ public class MySQLWrapper {//implements IWrapper{
 		
 		PrintWriter out = new PrintWriter("/public/MMLS/finance_data.txt");
 		out.write(a.trainNetwork());
-		
+			
+		out.close();
 
 		}catch (FileNotFoundException e) {
 				e.printStackTrace();

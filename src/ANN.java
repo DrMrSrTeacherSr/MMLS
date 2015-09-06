@@ -268,7 +268,7 @@ public class ANN {
 	 * @return gradient
 	 */
 	private double weightGradient(int l, int j, int k){
-		System.out.println(l +" : " +j + " : " + k+ " : " + error.length+ " : " + error[1].length);
+		System.out.println(l +" : " +j + " : " + k+ " : " + error.length+ " : " + error[2].length);
 		if(l == 1|| l == 0) return 1;
 		return neuralNetActivation[l - 1][k] * error[l][j];
 	}

@@ -44,7 +44,8 @@ public class MongoWrapper {//implements IWrapper{
 		
 		JsonParser parser = new JsonParser();
 		JsonObject o = (JsonObject)parser.parse(value);
-		System.out.println(o.get("image"));
+		System.out.println(o.get("label"));
+		System.out.println(o.get("image").isJsonArray());
 		
 //		String a = (String) (o.get("test"));
 //

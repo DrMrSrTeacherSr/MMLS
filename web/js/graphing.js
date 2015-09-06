@@ -98,12 +98,8 @@ function validGraphsForData(data) {
 			typeList.push(Graph.types.NUM_LINE);
 		}
 		return typeList;
-	} else if (types.length == 2) {
-		return [Graph.types.PIE, Graph.types.LINE, Graph.types.BAR];
-	} else {
-		alert("Yeah we haven't gotten there yet");
-		return [];
 	}
+	return [Graph.types.PIE, Graph.types.LINE, Graph.types.BAR];
 }
 function presentGraphOptions(data) {
 	$('#modal-chooser-options').html('');
@@ -123,7 +119,9 @@ function presentGraphType(type, data) {
 		$('#modal-chooser').closeModal();
 	if (type == Graph.types.NUM_LINE) {
 		popUpNumberLine(data);
-	} else {
+	} else if (type == Graph.types.LINE) {
+		popUpLineGraph(data);
+	}else {
 		alert("Sorry, that graph type is coming soon :)");
 	}
 }
@@ -240,5 +238,82 @@ function popUpNumberLine(data) {
 	      .attr("transform", "translate(0," + height/2.0 + ")")
 	      .attr("r", 5);
 
+}
+
+function popUpLineGraph(data) {
+	var margin = {top: 20, right: 20, bottom: 30, left: 50};
+	$('#modal-graph-data').html('');
+	$('#modal-graph').openModal();
+	$('#modal-graph-data').append('<div class="center-align"><h3>Line Graph</h3></div>')
+						  .append('<div id="modal-graph-data-line-graph"></div>');
+
+	var width = $('#modal-graph').width() * 0.8;
+	var height = $('#modal-graph').height() * .5;
+	var svgContainer = d3.select('#modal-graph-data-line-graph').append('svg')
+									.attr('width', width + margin.left + margin.right)
+                                    .attr('height', height + margin.top + margin.bottom)
+                                .append("g")
+							    	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	var primaryKey = "data1";
+	var secondaryKeys = ["data2", "data3", "data4", "data5", "data6"];
+
+	var x = d3.scale.linear()
+	    .range([0, width]);
+
+	var y = d3.scale.linear()
+	    .range([height, 0]);
+
+	var xAxis = d3.svg.axis()
+	    .scale(x)
+	    .orient("bottom");
+
+	var yAxis = d3.svg.axis()
+	    .scale(y)
+	    .orient("left");
+
+	var lines = {};
+	var secondaryMax = 0;
+	var secondaryMin = 0;
+	$.each(secondaryKeys, function() {
+		var thisKey = this;
+		var line = d3.svg.line()
+		    .x(function(d) { 
+		    	console.log("Iterating over x: " + d[primaryKey] + x(d[primaryKey]));
+		    	return x(d[primaryKey]); 
+		    })
+		    .y(function(d) { 
+		    	console.log("Iterating over y: " + d[thisKey] + x(d[thisKey]));
+		    	return y(d[thisKey]); 
+		    });
+		lines[thisKey] = line;
+		secondaryMin = d3.min([secondaryMin, d3.min(data, function(d) { return d[thisKey]; })]);
+		secondaryMax = d3.max([secondaryMax, d3.max(data, function(d) { return d[thisKey]; })]);
+	});
+	x.domain(d3.extent(data, function(d) { return d[primaryKey]; }));
+	y.domain([secondaryMin, secondaryMax]);
+
+	svgContainer.append("g")
+	  .attr("class", "x axis")
+	  .attr("transform", "translate(0," + height + ")")
+	  .call(xAxis);
+
+	svgContainer.append("g")
+	  .attr("class", "y axis")
+	  .call(yAxis)
+	.append("text")
+	  .attr("transform", "rotate(-90)")
+	  .attr("y", 6)
+	  .attr("dy", ".71em")
+	  .style("text-anchor", "end")
+	  .text("Dependent");
+
+	$.each(lines, function() {
+		svgContainer.append('svg:path')
+		  .attr('d', this(data))
+		  .attr('class', nextGraphColor())
+		  .attr('fill', 'none');
+
+	});
 }
 

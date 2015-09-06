@@ -1,3 +1,10 @@
+td {
+	padding: 10px 5px;
+}
+td p {
+	margin: 5px 0px;
+}
+
 
 .dial .title {
 	text-align: center;
@@ -79,6 +86,15 @@ Each bar of a table has the following components:
 	align-items: center;
 }
 
+.pointer {
+	display: block;
+    cursor: pointer;
+    height: 3rem;
+    line-height: 3rem;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
 
 #modal-chooser-options button {
 	margin-right: 10%;
@@ -103,5 +119,45 @@ Each bar of a table has the following components:
 #modal-graph-data-number-line circle {
 	fill: steelblue;
 	r: 10px;
+}
+
+.graph-color-0 {
+	stroke: #0E3D59;
+}
+
+.graph-color-1 {
+	stroke:#88A61B;
+}
+
+.graph-color-2 {
+	stroke:#F29F05;
+}
+
+.graph-color-3 {
+	stroke:#F25C05;
+}
+
+.graph-color-4 {
+	stroke:#D92525;
+}
+
+.graph-color-5 {
+	stroke:#665446;
+}
+
+.graph-color-6 {
+	stroke:#809994;
+}
+
+.graph-color-7 {
+	stroke:#AECCB6;
+}
+
+.graph-color-8 {
+	stroke:#DEF2C4;
+}
+
+.graph-color-9 {
+	stroke:#E5683F;
 }
 

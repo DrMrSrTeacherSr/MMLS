@@ -7,7 +7,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
 
-public class MongoWrapper {
+public class MongoWrapper implements IWrapper{
 
 	private String collectionName;
 	private ArrayList<String> parameters;

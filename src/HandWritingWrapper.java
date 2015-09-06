@@ -21,7 +21,7 @@ public class HandWritingWrapper {
 			db = mongoClient.getDB("MNISTDB");
 			coll = db.getCollection("training");
 			
-			BasicDBObject query = new BasicDBObject("test",0);
+			BasicDBObject query = new BasicDBObject("training",0);
 			DBCursor data = coll.find(query);
 			while(data.hasNext()){
 				DBObject temp = data.next();
@@ -33,7 +33,7 @@ public class HandWritingWrapper {
 				
 			}
 			
-			System.out.println("I ran");
+			System.out.println(db.getCollectionNames());
 			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

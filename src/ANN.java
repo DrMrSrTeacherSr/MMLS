@@ -90,7 +90,7 @@ public class ANN {
 	public double[] train(double[][] values, double[][] labels){
 		double[] settings = new double[2 + labels[0].length];
 		for(int i = 0; i < values.length; i ++){
-			System.out.println(test(values[i], labels[i])[0]);
+			test(values[i], labels[i]);
 		}
 		
 		double averageLastError = 0;
@@ -113,6 +113,10 @@ public class ANN {
 	 * @param out
 	 */
 	public double[] test(double[] values, double[] labels){
+//		for(int i = 0; i < values.length; i++){
+//			System.out.print(values[i]+ "  " );
+//			if(i%28 == 0)System.out.println();
+//		}
 		double[] settings = new double[2 + labels.length];
 		feedForward(values);
 		backPropogate(labels);
@@ -123,6 +127,8 @@ public class ANN {
 		for(int i = 0; i < labels.length; i++){
 			
 			averageLastError += Math.abs(labels[i] - neuralNetActivation[L-1][i]);
+			System.out.println(neuralNetActivation[L-1][i]);
+
 			averageSaturation += Math.pow(Math.abs(labels[i] - .5),2) * 2;
 			settings[i+2] = neuralNetActivation[L-1][i];
 		}
@@ -130,7 +136,9 @@ public class ANN {
 		settings[0] = averageLastError/labels.length;
 		settings[1] = averageSaturation;
 		
-
+		System.out.println("Hello");
+		System.out.println(toStringActivationFunction());
+		System.out.println("Hello2");
 
 		return settings;
 	}
@@ -264,7 +272,7 @@ public class ANN {
 	 * @return gradient
 	 */
 	private double weightGradient(int l, int j, int k){
-		if(l == 1|| l == 0) return 1;
+		if(l == 1) return 1;
 		return neuralNetActivation[l - 1][k] * error[l][j];
 	}
 	

@@ -32,7 +32,7 @@ public class MongoWrapper {//implements IWrapper{
 	}
 	
 	public MongoWrapper() throws UnknownHostException{
-		int [] h = {300};
+		int [] h = {100};
 		neuralNetwork = new ANN(28*28, h, 10);
 		parameters = new ArrayList<String>();
 		parameters.add("label");
@@ -104,14 +104,13 @@ public class MongoWrapper {//implements IWrapper{
 			}
 			
 			
-			
+			System.out.println(data.length+ " : " + data[0].length);
 			double[] results = neuralNetwork.train(data, labels);
 			System.out.println(results);
-//			JsonObject res = new JsonObject();
-//			res.addProperty("AverageError", results[0]);
-//			res.addProperty("AverageSaturation", results[1]);
-//			return res.toString();
-			return null;
+			JsonObject res = new JsonObject();
+			res.addProperty("AverageError", results[0]);
+			res.addProperty("AverageSaturation", results[1]);
+			return res.toString();
 		} else {
 			//General case
 			//Assume standardized form where every field is a double

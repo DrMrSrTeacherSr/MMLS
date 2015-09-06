@@ -132,11 +132,11 @@ public class ANN {
 			averageSaturation += Math.pow(Math.abs(labels[i] - .5),2) * 2;
 			settings[i+2] = neuralNetActivation[L-1][i];
 		}
-		
-		for(int i = 0; i < 10; i++){
-			System.out.print(error[L-1][i] + " ");
-
-		}
+//		
+//		for(int i = 0; i < 10; i++){
+//			System.out.print(error[L-1][i] + " ");
+//
+//		}
 		System.out.println();
 		settings[0] = averageLastError/labels.length;
 		settings[1] = averageSaturation;

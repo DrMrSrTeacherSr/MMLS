@@ -92,6 +92,8 @@ public class ANN {
 	public double[] train(double[][] values, double[][] labels){
 		double[] settings = new double[2 + labels[0].length];
 		for(int i = 0; i < values.length; i ++){
+			System.out.println("HERE : " + error[L-1].length+ " : " + L);
+
 			test(values[i], labels[i]);
 		}
 		

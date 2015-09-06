@@ -32,9 +32,8 @@ public class HandWritingWrapper {
 				BasicDBList image = (BasicDBList) temp.get("image");
 
 				for(int i = 0; i < image.size(); i++){
-					imageData[i + 28*count] = Double.parseDouble(image.get(i).toString());	
+					System.out.println(image.get(i).toString());	
 				}
-				count++;
 			}
 			
 			System.out.println(db.getCollectionNames());

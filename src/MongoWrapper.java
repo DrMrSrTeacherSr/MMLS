@@ -86,7 +86,13 @@ public class MongoWrapper {//implements IWrapper{
 			ArrayList<Double> labelList = trainingData.get("labels");
 			double[][] labels = new double[labelList.size()][10];
 			for (int ii = 0; ii < labels.length; ii++){
-				labels[ii][(int)((double)labelList.get(ii))] = 1;
+				for(int i = 0; i < 10; i++){
+					if((int)(double)labelList.get(ii) == i)
+						labels[ii][i] = 1;
+					else
+						labels[ii][i] = 0;
+				}
+				
 			}
 			double[][] data = new double [mnistImages.size()][mnistImages.get(0).size()];
 			int iCount = 0;
@@ -100,7 +106,7 @@ public class MongoWrapper {//implements IWrapper{
 			
 			
 			double[] results = neuralNetwork.train(data, labels);
-			System.out.println(results[0]);
+			System.out.println(results);
 //			JsonObject res = new JsonObject();
 //			res.addProperty("AverageError", results[0]);
 //			res.addProperty("AverageSaturation", results[1]);

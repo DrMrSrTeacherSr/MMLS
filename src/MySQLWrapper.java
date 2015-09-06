@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,9 +17,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
 
 
 
@@ -29,10 +28,6 @@ public class MySQLWrapper {//implements IWrapper{
 	private static final String USER = "root";
 	private static final String PASS = "4thegalaxytabs";
 
-	private static MongoClient mongoClient;
-	private static DB db;
-	private static DBCollection coll;
-	
 	private ANN neuralNetwork;
 	private boolean financialData = false;
 	
@@ -41,29 +36,13 @@ public class MySQLWrapper {//implements IWrapper{
 	public static void main(String[] arg){
 		
 		try {
-			mongoClient = new MongoClient();
-		
-		db = mongoClient.getDB("MasterDB");
-		db.dropDatabase();
-		coll = db.getCollection("ann_finance");
 		MySQLWrapper a = new MySQLWrapper();
 		
-//		BasicDBObject doc = new BasicDBObject(args[2], 0)
-//		.append("label", label)
-//		.append("image",image);
+		PrintWriter out = new PrintWriter("finance_data.txt");
+		out.write(a.trainNetwork());
 		
-		String out = a.trainNetwork();
-		
-		JsonElement jelement = new JsonParser().parse(out);
-	    JsonObject  jobject = jelement.getAsJsonObject();
-	    System.out.println(out);
-	    System.out.println(jobject.toString());
-//	    jobject = jobject.getAs("data");
-//	    JsonArray jarray = jobject.getAsJsonArray("translations");
-//	    jobject = jarray.get(0).getAsJsonObject();
-//	    String result = jobject.get("translatedText").toString();		
-		
-		}catch (UnknownHostException e) {
+
+		}catch (FileNotFoundException e) {
 				e.printStackTrace();
 		}
 	}
@@ -239,17 +218,5 @@ public class MySQLWrapper {//implements IWrapper{
 		return resultsList;
 	}
 
-	public class triTuple<K,T,L>{
-
-		public K var1;
-		public T var2;
-		public L var3;
-
-		public triTuple(K t1, T t2, L t3){
-			var1 = t1;
-			var2 = t2;
-			var3 = t3;
-		}
-	}
 
 }

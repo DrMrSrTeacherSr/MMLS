@@ -33,11 +33,10 @@ public class MySQLWrapper implements IWrapper{
 		Map<String, Double[]>trainingData = new HashMap<String, Double[]>(); 
 
 		try{
+			// Set up and connect to the database
 			Class.forName("com.mysql.jdbc.Driver");
-
 			System.out.println("Connecting to database...");
 			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
 			System.out.println("Creating statement...");
 			stmt = conn.createStatement();
 			String sql;
@@ -88,7 +87,6 @@ public class MySQLWrapper implements IWrapper{
 		}//end try
 
 		int historyLength = 10;
-		int counter = 0;
 		List<Double> buffer = new ArrayList<Double>();
 
 		for (Double[] s : trainingData.values()){
@@ -118,63 +116,11 @@ public class MySQLWrapper implements IWrapper{
 				}
 			}
 		}
-
-
-		//		int historyLength = 10;
-		//		int counter = 0;
-		//		for (Double[] s : trainingData.values()){
-		//			if (s.length > historyLength) {
-		//				double[] buffer = new double[historyLength];
-		//				Double[] dataSet = s;
-		//				double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
-		//				for (int ii = 0; ii < buffer.length; ii++){
-		//					buffer[ii] = (double)dataSet[ii];
-		//					max = Math.max(max, buffer[ii]);
-		//					min = Math.min(min, buffer[ii]);
-		//					buffer[ii] = (buffer[ii] - min)/(max - min);
-		//				}
-		//				
-		//				for (int jj = buffer.length; jj < dataSet.length; jj++){
-		//					if (jj > buffer.length){
-		//						for (int ii = 1; ii < buffer.length; ii++){
-		//							buffer[ii-1] = buffer[ii];
-		//						}
-		//						buffer[buffer.length - 1] = (dataSet[jj-1] - min)/(max-min);
-		//					}
-		//					max = Math.max(max, dataSet[jj]);
-		//					min = Math.min(min, dataSet[jj]);
-		//					double[] theEleventhAngel = {dataSet[jj]};
-		//					theEleventhAngel[0] = (theEleventhAngel[0] - min)/(max - min);
-		//					double[]labels = {theEleventhAngel};
-		//					double[]results = neuralNetwork.test(buffer, labels);
-		//					System.out.println("Avg Err: "+results[0]+"\tSatur.: "+results[1]+"\t"+results[2]+" vs."+theEleventhAngel);
-		//				}
-		//				++counter;
-		//			}
-		//			if (counter > 20)
-		//				break;
-		//		}
-
-
-	}
-
-	public double[] normilize(double[] d){
-		double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
-		for(int i = 0; i < d.length; i++){
-			max = Math.max(max, d[i]);
-			min = Math.min(min, d[i]);
-		}
-		//		for(int i = 0; i < d.length; i++){
-		//			d[i] = (d[i] - min)/(max - min);
-		//		}
-		d[d.length-1] = (d[d.length-1]-min)/(max - min);
-		return d;
-
 	}
 
 	@Override
 	public int predict() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 

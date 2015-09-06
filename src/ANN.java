@@ -15,8 +15,8 @@ public class ANN {
 	
 	private double[][] error;
 
-	private double weightsLearningRate = .75;
-	private double biasLearningRate = .75;
+	private double weightsLearningRate = 2	;
+	private double biasLearningRate = 2;
 
 	int trialCount = 0;
 	
@@ -336,7 +336,7 @@ public class ANN {
         double out[] = new double[first.length]; 
         for(int i = 0; i < first.length; i++){
         	double sum = 0;
-        	for(int k = 0; k < second.length; k++){
+        	for(int k = 0; k < first[0].length; k++){
         		
         		sum += first[i][k] * second[k];
         	}

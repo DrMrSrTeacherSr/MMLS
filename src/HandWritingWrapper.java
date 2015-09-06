@@ -34,6 +34,7 @@ public class HandWritingWrapper {
 				for(int i = 0; i < image.size(); i++){
 					System.out.println(image.get(i).toString());	
 				}
+				System.out.println("----------------------------------------------");
 			}
 			
 			System.out.println(db.getCollectionNames());

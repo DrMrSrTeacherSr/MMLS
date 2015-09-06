@@ -92,7 +92,11 @@ public class MySQLWrapper implements IWrapper{
 		List<Double> buffer = new ArrayList<Double>();
 
 		for (Double[] s : trainingData.values()){
-//			double max = 0;
+			double max = Double.MIN_VALUE;
+			for (double d:s){
+				if (d > max)
+					max = d;
+			}
 			if (s.length > historyLength) {
 				for(double d: s){
 					buffer.add(d);
@@ -103,7 +107,8 @@ public class MySQLWrapper implements IWrapper{
 						for(int i = 0; i < 11; i++){
 							values[i] = buffer.get(i);
 						}
-						values = normilize(values);
+//						values = normilize(values);
+						values[values.length-1] = values[values.length-1]/max;
 						double[] values2 = new double[10];
 
 						for(int i = 0; i < 10; i++){
@@ -112,6 +117,7 @@ public class MySQLWrapper implements IWrapper{
 						double[] ele= {values[10]};
 						double[] out = neuralNetwork.test(values2, ele);
 						System.out.println("batch end " + out[0] + " : " + out[1] +  " : " + out[2] + " : " + ele[0]);
+						System.out.println(neuralNetwork.toStringWeights());
 //						System.out.println(d);
 					}
 				}

@@ -133,8 +133,10 @@ public class ANN {
 		
 		settings[0] = averageLastError/labels.length;
 		settings[1] = averageSaturation;
+		
 		System.out.println("Hello");
 		System.out.println(toStringWeights());
+		System.out.println("Hello2");
 
 		return settings;
 	}

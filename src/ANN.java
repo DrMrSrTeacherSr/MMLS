@@ -330,10 +330,11 @@ public class ANN {
 	 */
 	private double[] arrayProduct(double[][] first, double[] second){
         double out[] = new double[first.length]; 
-        
+        System.out.println(first.length+ " : " + first[0].length + " : "  +  second.length);
         for(int i = 0; i < first.length; i++){
         	double sum = 0;
         	for(int k = 0; k < second.length; k++){
+        		
         		sum += first[i][k] * second[k];
         	}
         	out[i] = sum;

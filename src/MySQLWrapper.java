@@ -117,7 +117,7 @@ public class MySQLWrapper implements IWrapper{
 						double[] ele= {values[10]};
 						double[] out = neuralNetwork.test(values2, ele);
 						System.out.println("batch end " + out[0] + " : " + out[1] +  " : " + out[2] + " : " + ele[0]);
-						System.out.println(neuralNetwork.toStringWeights());
+//						System.out.println(neuralNetwork.toStringWeights());
 //						System.out.println(d);
 					}
 				}

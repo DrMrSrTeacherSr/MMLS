@@ -7,13 +7,13 @@ import java.util.Map;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class MySQLWrapper implements IWrapper{
+public class MySQLWrapper {//implements IWrapper{
 
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	private static final String DB_URL = "jdbc:mysql://localhost/stockDB";
 
 	private static final String USER = "root";
-	private static final String PASS = "####";
+	private static final String PASS = "4thegalaxytabs";
 
 	private ANN neuralNetwork;
 	private boolean financialData = false;
@@ -40,7 +40,6 @@ public class MySQLWrapper implements IWrapper{
 		fields = input;
 	}
 
-	@Override
 	public String trainNetwork() {
 		Connection conn = null;
 		Statement stmt = null;
@@ -160,7 +159,6 @@ public class MySQLWrapper implements IWrapper{
 		}
 	}
 
-	@Override
 	public int predict() {
 		return 0;
 	}

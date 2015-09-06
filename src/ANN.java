@@ -127,6 +127,8 @@ public class ANN {
 		for(int i = 0; i < labels.length; i++){
 			
 			averageLastError += Math.abs(labels[i] - neuralNetActivation[L-1][i]);
+			System.out.println(neuralNetActivation[L-1][i]);
+
 			averageSaturation += Math.pow(Math.abs(labels[i] - .5),2) * 2;
 			settings[i+2] = neuralNetActivation[L-1][i];
 		}
@@ -135,7 +137,6 @@ public class ANN {
 		settings[1] = averageSaturation;
 		
 		System.out.println("Hello");
-		System.out.println(averageLastError);
 		System.out.println("Hello2");
 
 		return settings;

@@ -57,7 +57,7 @@ public class MySQLWrapper {//implements IWrapper{
 		JsonElement jelement = new JsonParser().parse(out);
 	    JsonObject  jobject = jelement.getAsJsonObject();
 	    System.out.println(out);
-	    System.out.println(jobject.getAsString());
+	    System.out.println(jobject.toString());
 //	    jobject = jobject.getAs("data");
 //	    JsonArray jarray = jobject.getAsJsonArray("translations");
 //	    jobject = jarray.get(0).getAsJsonObject();
@@ -239,11 +239,11 @@ public class MySQLWrapper {//implements IWrapper{
 		return resultsList;
 	}
 
-	protected class triTuple<K,T,L>{
+	public class triTuple<K,T,L>{
 
-		protected K var1;
-		protected T var2;
-		protected L var3;
+		public K var1;
+		public T var2;
+		public L var3;
 
 		public triTuple(K t1, T t2, L t3){
 			var1 = t1;

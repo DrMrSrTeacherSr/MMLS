@@ -25,7 +25,7 @@ public class HandWritingWrapper {
 			DBCursor data = coll.find(query);
 			while(data.hasNext()){
 				DBObject temp = data.next();
-				byte label = (byte) temp.get("label");
+				int label = (int) temp.get("label");
 				int[][] image = (int[][]) temp.get("image");
 
 				

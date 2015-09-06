@@ -1,6 +1,8 @@
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -39,6 +41,11 @@ public class MongoWrapper {//implements IWrapper{
 //		DBObject o = curs.next();
 		String value = curs.next().toString();
 		System.out.println(value);
+		
+		JsonParser parser = new JsonParser();
+		JsonObject o = (JsonObject)parser.parse(value);
+		System.out.println(o.get("image"));
+		
 //		String a = (String) (o.get("test"));
 //
 //		System.out.println(a);
